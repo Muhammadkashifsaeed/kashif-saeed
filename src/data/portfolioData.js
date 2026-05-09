@@ -76,7 +76,7 @@ export const projects = [
   description: 'Full-featured ecommerce platform with product listing, shopping cart, user authentication, payment integration, and order management system.',
   image: '/images/Ecommerce.png',
   technologies: ['React', 'Vite', 'Tailwind CSS', 'Node.js', 'MongoDB', 'Stripe'],
-  liveUrl: 'ecommerce-website-6eem.vercel.app',
+  liveUrl: '',
   githubUrl: 'https://github.com/Muhammadkashifsaeed/Ecommerce-Website',
   featured: true
 }
