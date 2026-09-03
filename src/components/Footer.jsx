@@ -1,5 +1,5 @@
-﻿"use client";
-import { FaGithub, FaLinkedin, FaEnvelope, FaHeart, FaWhatsapp } from 'react-icons/fa';
+"use client";
+import { FaGithub, FaLinkedin, FaEnvelope, FaHeart, FaWhatsapp, FaFacebook, FaInstagram } from 'react-icons/fa';
 import { personalInfo } from '../data/portfolioData';
 import { useInView } from '../hooks/useInView';
 
@@ -70,18 +70,19 @@ const Footer = () => {
           {/* Social Links */}
           <div className="flex justify-center md:justify-end gap-4">
             {[
-              { icon: FaGithub, href: personalInfo.social.github, label: 'GitHub' },
-              { icon: FaLinkedin, href: personalInfo.social.linkedin, label: 'LinkedIn' },
-              { icon: FaEnvelope, href: `mailto:${personalInfo.email}`, label: 'Email' },
-              { icon: FaWhatsapp, href: 'https://wa.me/923001234567?text=Hello%20Kashif', label: 'WhatsApp' }
-            ].map(({ icon: Icon, href, label }, idx) => (
+              { icon: FaGithub, href: personalInfo.social?.github || '#', label: 'GitHub', hoverClass: 'hover:text-white hover:bg-white/10' },
+              { icon: FaLinkedin, href: personalInfo.social?.linkedin || '#', label: 'LinkedIn', hoverClass: 'hover:text-blue-500 hover:bg-blue-500/10' },
+              { icon: FaFacebook, href: personalInfo.social?.facebook || '#', label: 'Facebook', hoverClass: 'hover:text-blue-600 hover:bg-blue-600/10' },
+              { icon: FaInstagram, href: personalInfo.social?.instagram || '#', label: 'Instagram', hoverClass: 'hover:text-pink-500 hover:bg-pink-500/10' },
+              { icon: FaWhatsapp, href: personalInfo.social?.whatsapp || 'https://wa.me/3062933633', label: 'WhatsApp', hoverClass: 'hover:text-green-500 hover:bg-green-500/10' },
+              { icon: FaEnvelope, href: `mailto:${personalInfo.email}`, label: 'Email', hoverClass: 'hover:text-red-500 hover:bg-red-500/10' }
+            ].map(({ icon: Icon, href, label, hoverClass }, idx) => (
               <a
                 key={label}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full glass flex items-center justify-center
-                         text-dark-300 hover:text-white transition-all hover-lift"
+                className={`w-10 h-10 rounded-full glass flex items-center justify-center text-dark-300 transition-all duration-300 ${hoverClass} hover:scale-110`}
                 style={{
                   transitionDelay: isSocialInView ? `${idx * 50}ms` : '0ms',
                   opacity: isSocialInView ? 1 : 0,
@@ -101,7 +102,7 @@ const Footer = () => {
             Â© {currentYear} {personalInfo.name}. All rights reserved.
           </p>
           <p className="text-dark-500 text-xs mt-2 flex items-center justify-center gap-1">
-            Made with <FaHeart className="text-red-500" size={12} /> using React & Tailwind
+            Made with <FaHeart className="text-red-500" size={12} /> using Next.js & Tailwind
           </p>
         </div>
       </div>

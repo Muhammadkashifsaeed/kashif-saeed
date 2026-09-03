@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useEffect, useRef } from 'react';
 import { FaGithub, FaLinkedin, FaFacebook, FaInstagram, FaWhatsapp, FaEnvelope, FaBars, FaTimes } from 'react-icons/fa';
 import { personalInfo } from '../data/portfolioData';
@@ -100,25 +100,7 @@ const Navbar = () => {
 
           {/* Social Icons & CTA - Desktop */}
           <div className="hidden lg:flex items-center space-x-4">
-            {[
-              { icon: FaGithub, href: personalInfo.social?.github || '#', label: 'GitHub' },
-              { icon: FaLinkedin, href: personalInfo.social?.linkedin || '#', label: 'LinkedIn' },
-              { icon: FaFacebook, href: personalInfo.social?.facebook || '#', label: 'Facebook' },
-              { icon: FaInstagram, href: personalInfo.social?.instagram || '#', label: 'Instagram' },
-              { icon: FaWhatsapp, href: getWhatsAppLink(), label: 'WhatsApp' },  // âœ… Fixed
-              { icon: FaEnvelope, href: `mailto:${personalInfo.email || 'kashifsaeed8856@gmail.com'}`, label: 'Email' }
-            ].map(({ icon: Icon, href, label }) => (
-              <a
-                key={label}
-                href={href}
-                target={href?.startsWith('mailto:') ? undefined : '_blank'}
-                rel={href?.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
-                className="text-dark-300 hover:text-white transition-colors hover-lift"
-                aria-label={label}
-              >
-                <Icon size={20} />
-              </a>
-            ))}
+
             <a
               href="#contact"
               onClick={(e) => scrollToSection(e, '#contact')}
@@ -168,27 +150,7 @@ const Navbar = () => {
                   {link.name}
                 </a>
               ))}
-              <div className="pt-4 flex justify-center space-x-6">
-                {[
-                  { icon: FaGithub, href: personalInfo.social?.github || '#' },
-                  { icon: FaLinkedin, href: personalInfo.social?.linkedin || '#' },
-                  { icon: FaFacebook, href: personalInfo.social?.facebook || '#' },
-                  { icon: FaInstagram, href: personalInfo.social?.instagram || '#' },
-                  { icon: FaWhatsapp, href: getWhatsAppLink() },  // âœ… Fixed
-                  { icon: FaEnvelope, href: `mailto:${personalInfo.email || 'kashifsaeed8856@gmail.com'}` }
-                ].map(({ icon: Icon, href }, idx) => (
-                  <a
-                    key={idx}
-                    href={href}
-                    target={href?.startsWith('mailto:') ? undefined : '_blank'}
-                    rel={href?.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
-                    className="text-dark-300 hover:text-white hover-lift"
-                    aria-label="Social link"
-                  >
-                    <Icon size={20} />
-                  </a>
-                ))}
-              </div>
+
             </div>
           </div>
         )}
