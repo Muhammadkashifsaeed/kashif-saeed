@@ -57,7 +57,7 @@ const Hero = () => {
                 transitionDelay: '300ms'
               }}
             >
-              <p className="text-xl text-gray-600 font-medium tracking-wide">
+              <p className="text-xl text-gray-200 font-medium tracking-wide">
                 Welcome in My Feed
               </p>
             </div>
