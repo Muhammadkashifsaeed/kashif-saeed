@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useInView } from '../hooks/useInView';
 import { FaGraduationCap, FaLightbulb, FaHeart, FaRocket } from 'react-icons/fa';
 import { personalInfo } from '../data/portfolioData';
@@ -114,7 +114,7 @@ const About = () => {
             </h3>
 
             <p className="text-dark-200 text-lg leading-relaxed mb-6">
-              I am a passionate Junior Frontend Developer with strong interest in building responsive and modern web applications using React.js, JavaScript, and Tailwind CSS.
+              I am a passionate Junior Frontend Developer with strong interest in building responsive and modern web applications using Next.js, React, and Tailwind CSS.
             </p>
 
             <p className="text-dark-200 text-lg leading-relaxed mb-8">

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useEffect } from 'react';
 import { useInView } from '../hooks/useInView';
 import { FaDownload, FaEnvelope, FaGithub, FaLinkedin, FaFacebook, FaInstagram } from 'react-icons/fa';
@@ -37,17 +37,17 @@ const Hero = () => {
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
       {/* Animated Gradient Background */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-pulse-slow" />
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-accent/40 rounded-full blur-[120px] animate-pulse-slow" />
         <div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse-slow"
-          style={{ animationDelay: '1s' }}
+          className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-600/40 rounded-full blur-[120px] animate-pulse-slow"
+          style={{ animationDelay: '2s' }}
         />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-accent/10 to-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-accent/20 to-purple-500/20 rounded-full blur-[150px]" />
       </div>
 
       {/* Grid Pattern Overlay */}
-      <div className="absolute inset-0 opacity-10">
+      <div className="absolute inset-0 opacity-20" style={{ maskImage: 'radial-gradient(circle at center, black, transparent 80%)', WebkitMaskImage: 'radial-gradient(circle at center, black, transparent 80%)' }}>
         <div className="h-full w-full bg-[linear-gradient(to_right,#888_1px,transparent_1px),linear-gradient(to_bottom,#888_1px,transparent_1px)] bg-[size:40px_40px]" />
       </div>
 
@@ -86,9 +86,9 @@ const Hero = () => {
               <h1 className="text-3xl md:text-5xl font-bold text-white">
                 Hello, I'm a
               </h1>
-              <span className="text-4xl md:text-6xl font-bold text-green-600 block mt-2">
+              <span className="text-4xl md:text-6xl font-bold text-accent block mt-2">
                 <ReactTyped
-                   strings={["Frontend Developer", "I am a prgrammer", "I Love Codaing"]}
+                   strings={["Next.js Developer", "I am a Programmer", "I Love Coding"]}
                   typeSpeed={40}
                   backSpeed={50}
                   loop={true}

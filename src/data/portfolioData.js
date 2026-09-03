@@ -142,8 +142,8 @@ export const experience = [
 
 export const personalInfo = {
   name: 'Kashif Saeed',
-  title: 'Frontend Developer',
-  tagline: 'Crafting beautiful, responsive, and user-friendly web experiences with React and Tailwind CSS',
+  title: 'Next.js Developer',
+  tagline: 'Crafting beautiful, responsive, and user-friendly web experiences with Next.js and Tailwind CSS',
   email: 'kashifsaeed8856@gmail.com',
   phone: '+92 306 2933633',
   location: 'Lahore Pakistan',
