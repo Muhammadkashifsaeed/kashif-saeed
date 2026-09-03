@@ -13,11 +13,11 @@ export const skills = [
 { name: 'CSS3', icon: FaCss3Alt, level: 92, category: 'Frontend' },
 { name: 'JavaScript ES6+', icon: FaJs, level: 88, category: 'Frontend' },
 { name: 'React.js', icon: FaReact, level: 85, category: 'Frontend' },
+{ name: 'Next.js', icon: SiNextdotjs, level: 80, category: 'Frontend' },
 { name: 'Tailwind CSS', icon: SiTailwindcss, level: 84, category: 'Styling' },
   { name: 'Git & GitHub', icon: FaGitAlt, level: 88, category: 'Tools' },
   { name: 'Framer Motion', icon: SiFramer, level: 68, category: 'Animation' },
   { name: 'Responsive Design', icon: MdDevices, level: 90, category: 'Core' },
-  { name: 'Next.js', icon: SiNextdotjs, level: 80, category: 'Frontend' },
 ];
 
 export const projects = [
