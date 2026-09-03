@@ -118,49 +118,25 @@ export const experience = [
     id: 1,
     role: 'Frontend Developer',
     company: 'Digistartp UK',
-    period: '2024 - Present',
-    description: 'Promoted to a full-time role after a successful 5-month internship. Currently developing and maintaining modern, responsive web applications using React.js and Next.js, collaborating with the team to deliver high-quality digital products.',
+    period: 'May 2026 - Present',
+    description: 'Developing and maintaining modern, responsive web applications using React.js and Next.js. Collaborating with the team to deliver high-quality digital products and seamless user experiences.',
     type: 'work'
   },
   {
-    id: 101,
-    role: 'Frontend Developer Intern',
-    company: 'Digistartp UK',
-    period: '2023 - 2024 (5 Months)',
-    description: 'Completed a 5-month internship focusing on frontend development. Gained hands-on experience in building user interfaces, writing clean code, and working with modern web technologies.',
-    type: 'internship'
-  },
-  {
     id: 2,
-role: 'Fresh Graduate – Seeking Frontend Developer Internship',
-company: 'Open to Opportunities',
-period: '2024 - Present',
-description: 'Fresh Computer Science graduate with strong interest in frontend development. Actively seeking an internship opportunity to apply skills in React.js, JavaScript, and Tailwind CSS. Passionate about building responsive and user-friendly web applications while learning industry best practices and improving coding standards.',
-type: 'internship'
+    role: 'Frontend Development (Self-Learning)',
+    company: 'Self-Taught & Practice Projects',
+    period: 'Jan 2026 - May 2026',
+    description: 'Dedicated time to advance skills in modern web technologies including Next.js, advanced React patterns, and Tailwind CSS. Built complex practice projects to prepare for a full-time role.',
+    type: 'certification'
   },
   {
     id: 3,
-role: 'BS Computer Science',
-company: 'COMSATS University Islamabad, Vehari Campus',
-period: '2022 - 2026',
-description: 'Computer Science student with strong interest in frontend development. Passionate about building responsive and modern web applications using React.js, JavaScript, and Tailwind CSS. Actively seeking internship and junior frontend developer opportunities to gain real-world experience and grow in the field.',
-type: 'education'
-  },
-  {
-   id: 4,
-role: 'React & Modern JavaScript (Self Practice)',
-company: 'Self-Learning (Senior Developer Guidance + Online Resources)',
-period: '2023',
-description: 'Learned React and modern JavaScript through self-practice, online resources, and guidance from senior developers. Built 5 real-world frontend projects to strengthen understanding of components, state management, and responsive UI development.',
-type: 'certification'
-  },
-  {
-   id: 5,
-role: 'Tailwind CSS (Self Practice)',
-company: 'Self-Learning (Online Resources + Practice Projects)',
-period: '2023',
-description: 'Learned Tailwind CSS through self-practice and online resources with focus on utility-first styling, responsive design, and building modern UI components. Applied concepts in multiple frontend projects to improve real-world development skills.',
-type: 'certification'
+    role: 'BS Computer Science',
+    company: 'COMSATS University Islamabad, Vehari Campus',
+    period: '2022 - Jan 2026',
+    description: 'Completed degree with a strong foundation in computer science and a passion for frontend development. Learned core programming concepts, data structures, and web development fundamentals.',
+    type: 'education'
   }
 ];
 
