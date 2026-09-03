@@ -17,17 +17,14 @@ export default function Page() {
       
       {/* Global Animated Background */}
       <div className="fixed inset-0 -z-20 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-accent/10 rounded-full blur-[150px] animate-pulse-slow" />
-        <div
-          className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[150px] animate-pulse-slow"
-          style={{ animationDelay: '3s' }}
-        />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-gradient-to-br from-accent/5 to-purple-500/5 rounded-full blur-[180px]" />
-      </div>
-
-      {/* Global Grid Overlay */}
-      <div className="fixed inset-0 -z-10 opacity-20 pointer-events-none">
-        <div className="h-full w-full bg-[linear-gradient(to_right,#6366f1_1px,transparent_1px),linear-gradient(to_bottom,#6366f1_1px,transparent_1px)] bg-[size:50px_50px]" style={{ maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)', WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)' }} />
+        {/* Glow Blobs */}
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-accent/15 rounded-full blur-[120px] animate-pulse-slow" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/15 rounded-full blur-[120px] animate-pulse-slow" style={{ animationDelay: '1s' }} />
+        
+        {/* Enhanced Grid Boxes */}
+        <div className="absolute inset-0 opacity-[0.20]" style={{ maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)', WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)' }}>
+          <div className="h-full w-full bg-[linear-gradient(to_right,#6366f1_1px,transparent_1px),linear-gradient(to_bottom,#6366f1_1px,transparent_1px)] bg-[size:40px_40px]" />
+        </div>
       </div>
 
       <Navbar />
