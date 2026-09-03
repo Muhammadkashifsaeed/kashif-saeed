@@ -73,7 +73,10 @@ const Hero = () => {
               <h1 className="text-3xl md:text-5xl font-bold text-white">
                 Hello, I'm a
               </h1>
-              <span className="text-4xl md:text-6xl font-bold text-accent block mt-2">
+              <span 
+                className="text-4xl md:text-6xl font-bold block mt-2 text-transparent bg-clip-text"
+                style={{ backgroundImage: 'linear-gradient(to right, #ef4444, #eab308, #22c55e, #3b82f6)' }}
+              >
                 <ReactTyped
                    strings={["Next.js Developer", "I am a Programmer", "I Love Coding"]}
                   typeSpeed={40}
