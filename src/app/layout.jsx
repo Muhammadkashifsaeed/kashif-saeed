@@ -1,8 +1,40 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Portfolio Website',
-  description: 'My portfolio website',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'),
+  title: 'Kashif Saeed | Next.js Developer Portfolio',
+  description: 'Portfolio of Kashif Saeed, a passionate Next.js Developer from Lahore, Pakistan, specializing in responsive and beautiful web experiences.',
+  keywords: ['Kashif Saeed', 'Next.js Developer', 'Frontend Developer', 'React Developer', 'Web Developer', 'Portfolio', 'Pakistan'],
+  authors: [{ name: 'Kashif Saeed', url: 'https://github.com/Muhammadkashifsaeed' }],
+  creator: 'Kashif Saeed',
+  publisher: 'Kashif Saeed',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'Kashif Saeed | Next.js Developer Portfolio',
+    description: 'Portfolio of Kashif Saeed, a passionate Next.js Developer from Lahore, Pakistan.',
+    url: '/',
+    siteName: 'Kashif Saeed Portfolio',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Kashif Saeed | Next.js Developer Portfolio',
+    description: 'Portfolio of Kashif Saeed, a passionate Next.js Developer from Lahore, Pakistan.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function RootLayout({ children }) {
