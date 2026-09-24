@@ -110,6 +110,16 @@ export const projects = [
     liveUrl: 'https://calculator-xi-kohl-27.vercel.app/',
     githubUrl: 'https://github.com/Muhammadkashifsaeed/Calculator',
     featured: true
+  },
+  {
+    id: 10,
+    title: 'Monster IPTV',
+    description: 'Monster TV erbjuder en modern och användarvänlig streamingupplevelse för dig som vill njuta av digital underhållning på ett enkelt sätt. Upptäck tillgängligt innehåll inom sport, filmer, serier och liveunderhållning via kompatibla enheter.',
+    image: '/images/monster iptv.png',
+    technologies: ['Next.js', 'React', 'Tailwind CSS'],
+    liveUrl: 'https://monsteriptv-beryl.vercel.app/',
+    githubUrl: 'https://github.com/Muhammadkashifsaeed/monsteriptv.git',
+    featured: true
   }
 ];
 
