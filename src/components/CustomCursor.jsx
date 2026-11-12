@@ -1,73 +1,131 @@
-"use client";
+'use client';
 import { useEffect, useState } from 'react';
+import { AnimatePresence, motion, useMotionValue, useSpring } from 'framer-motion';
 
-const CustomCursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
+export default function CustomCursor() {
+  const [enabled, setEnabled] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [cursorMode, setCursorMode] = useState('default'); // 'default' | 'pointer' | 'view' | 'inspect' | 'open'
+  const [isPressed, setIsPressed] = useState(false);
+
+  const mouseX = useMotionValue(-100);
+  const mouseY = useMotionValue(-100);
+
+  const ringX = useSpring(mouseX, { stiffness: 360, damping: 28, mass: 0.35 });
+  const ringY = useSpring(mouseY, { stiffness: 360, damping: 28, mass: 0.35 });
 
   useEffect(() => {
-    const updatePosition = (e) => {
-      setPosition({ x: e.clientX, y: e.clientY });
+    const finePointer = window.matchMedia('(pointer: fine)').matches;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!finePointer || reducedMotion) return;
+
+    setEnabled(true);
+
+    const onMouseMove = (e) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
       if (!isVisible) setIsVisible(true);
     };
 
-    const handleMouseOver = (e) => {
-      if (
-        e.target.tagName.toLowerCase() === 'a' ||
-        e.target.tagName.toLowerCase() === 'button' ||
-        e.target.closest('a') ||
-        e.target.closest('button') ||
-        e.target.classList.contains('hover-scale') ||
-        e.target.classList.contains('hover-lift')
-      ) {
-        setIsHovering(true);
-      } else {
-        setIsHovering(false);
+    const onMouseOver = (e) => {
+      const target = e.target;
+      if (!(target instanceof Element)) return;
+
+      const customTarget = target.closest('[data-cursor]');
+      if (customTarget) {
+        setCursorMode(customTarget.getAttribute('data-cursor') || 'pointer');
+        return;
       }
+
+      const interactive = target.closest('a, button, input, textarea, select, [role="button"]');
+      setCursorMode(interactive ? 'pointer' : 'default');
     };
 
-    const handleMouseLeave = () => setIsVisible(false);
-    const handleMouseEnter = () => setIsVisible(true);
+    const onMouseDown = () => setIsPressed(true);
+    const onMouseUp = () => setIsPressed(false);
+    const onMouseLeave = () => setIsVisible(false);
+    const onMouseEnter = () => setIsVisible(true);
 
-    window.addEventListener('mousemove', updatePosition);
-    window.addEventListener('mouseover', handleMouseOver);
-    document.addEventListener('mouseleave', handleMouseLeave);
-    document.addEventListener('mouseenter', handleMouseEnter);
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    window.addEventListener('mouseover', onMouseOver, { passive: true });
+    window.addEventListener('mousedown', onMouseDown);
+    window.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mouseleave', onMouseLeave);
+    document.addEventListener('mouseenter', onMouseEnter);
 
     return () => {
-      window.removeEventListener('mousemove', updatePosition);
-      window.removeEventListener('mouseover', handleMouseOver);
-      document.removeEventListener('mouseleave', handleMouseLeave);
-      document.removeEventListener('mouseenter', handleMouseEnter);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseover', onMouseOver);
+      window.removeEventListener('mousedown', onMouseDown);
+      window.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mouseleave', onMouseLeave);
+      document.removeEventListener('mouseenter', onMouseEnter);
     };
-  }, [isVisible]);
+  }, [isVisible, mouseX, mouseY]);
 
-  if (typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches) {
-    return null; // Don't show on mobile
-  }
+  if (!enabled) return null;
+
+  const hasLabel = cursorMode === 'view' || cursorMode === 'inspect' || cursorMode === 'open';
+  const labelText =
+    cursorMode === 'view'
+      ? 'VIEW ↗'
+      : cursorMode === 'inspect'
+      ? 'EXPLORE'
+      : cursorMode === 'open'
+      ? 'OPEN ↗'
+      : '';
 
   return (
     <>
-      {/* Outer Ring */}
-      <div
-        className={`fixed top-0 left-0 w-8 h-8 border-2 border-accent rounded-full pointer-events-none z-[9999] transition-all duration-150 ease-out flex items-center justify-center mix-blend-screen ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+      <motion.div
+        aria-hidden="true"
+        className="fixed top-0 left-0 pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center rounded-full"
         style={{
-          transform: `translate3d(${position.x - 16}px, ${position.y - 16}px, 0) scale(${isHovering ? 1.5 : 1})`,
+          x: ringX,
+          y: ringY,
+          width: hasLabel ? 78 : cursorMode === 'pointer' ? 42 : 28,
+          height: hasLabel ? 78 : cursorMode === 'pointer' ? 42 : 28,
+          opacity: isVisible ? 1 : 0,
+          scale: isPressed ? 0.85 : 1,
+          backgroundColor: hasLabel
+            ? '#d2ff28'
+            : cursorMode === 'pointer'
+            ? 'rgba(210, 255, 40, 0.14)'
+            : 'transparent',
+          border: hasLabel
+            ? '1px solid #d2ff28'
+            : '1.5px solid rgba(210, 255, 40, 0.75)',
+          mixBlendMode: hasLabel ? 'normal' : 'difference',
+          transition:
+            'width 200ms cubic-bezier(0.16, 1, 0.3, 1), height 200ms cubic-bezier(0.16, 1, 0.3, 1), background-color 200ms ease, opacity 180ms ease',
         }}
       >
-        <div className={`w-full h-full bg-accent/20 rounded-full transition-opacity duration-300 ${isHovering ? 'opacity-100' : 'opacity-0'}`} />
-      </div>
-      
-      {/* Inner Dot */}
-      <div
-        className={`fixed top-0 left-0 w-2 h-2 bg-accent rounded-full pointer-events-none z-[9999] transition-all duration-75 ease-out mix-blend-screen shadow-[0_0_10px_#6366f1] ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+        <AnimatePresence mode="wait">
+          {hasLabel && (
+            <motion.span
+              key={labelText}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.15 }}
+              className="font-mono text-[10px] font-bold tracking-wider text-[#070709]"
+            >
+              {labelText}
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </motion.div>
+
+      <motion.div
+        aria-hidden="true"
+        className="fixed top-0 left-0 pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-volt-500"
         style={{
-          transform: `translate3d(${position.x - 4}px, ${position.y - 4}px, 0) scale(${isHovering ? 0 : 1})`,
+          x: mouseX,
+          y: mouseY,
+          opacity: isVisible && !hasLabel ? (cursorMode === 'pointer' ? 0.4 : 1) : 0,
+          transition: 'opacity 150ms ease',
         }}
       />
     </>
   );
-};
-
-export default CustomCursor;
+}

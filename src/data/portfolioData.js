@@ -3,124 +3,405 @@ import {
   FaCss3Alt,
   FaJs,
   FaReact,
-  FaGitAlt
+  FaGitAlt,
 } from 'react-icons/fa';
-import { SiTailwindcss, SiFramer, SiNextdotjs } from 'react-icons/si';
-import { MdDevices } from 'react-icons/md';
+import {
+  SiTailwindcss,
+  SiFramer,
+  SiNextdotjs,
+  SiVite,
+  SiAxios,
+  SiSwiper,
+} from 'react-icons/si';
+import { MdDevices, MdGridView, MdStorage, MdCloudQueue } from 'react-icons/md';
+
+export const skillCategories = [
+  'All',
+  'Frontend',
+  'Frameworks',
+  'Styling',
+  'Tools',
+  'Other Technologies',
+];
 
 export const skills = [
-{ name: 'HTML5', icon: FaHtml5, level: 95, category: 'Frontend' },
-{ name: 'CSS3', icon: FaCss3Alt, level: 92, category: 'Frontend' },
-{ name: 'JavaScript ES6+', icon: FaJs, level: 88, category: 'Frontend' },
-{ name: 'React.js', icon: FaReact, level: 85, category: 'Frontend' },
-{ name: 'Next.js', icon: SiNextdotjs, level: 80, category: 'Frontend' },
-{ name: 'Tailwind CSS', icon: SiTailwindcss, level: 84, category: 'Styling' },
-  { name: 'Git & GitHub', icon: FaGitAlt, level: 88, category: 'Tools' },
-  { name: 'Framer Motion', icon: SiFramer, level: 68, category: 'Animation' },
-  { name: 'Responsive Design', icon: MdDevices, level: 90, category: 'Core' },
+  {
+    name: 'HTML5',
+    icon: FaHtml5,
+    level: 95,
+    category: 'Frontend',
+    color: '#E34F26',
+    summary: 'Semantic markup, accessibility, and SEO-ready document structure.',
+  },
+  {
+    name: 'CSS3',
+    icon: FaCss3Alt,
+    level: 92,
+    category: 'Frontend',
+    color: '#1572B6',
+    summary: 'Modern layouts, custom properties, keyframe animations, and transitions.',
+  },
+  {
+    name: 'JavaScript ES6+',
+    icon: FaJs,
+    level: 88,
+    category: 'Frontend',
+    color: '#F7DF1E',
+    summary: 'Async/await, DOM APIs, modular architecture, and modern ES syntax.',
+  },
+  {
+    name: 'Next.js',
+    icon: SiNextdotjs,
+    level: 82,
+    category: 'Frameworks',
+    color: '#38BDF8',
+    summary: 'App Router, metadata/SEO optimization, and fast full-stack web apps.',
+  },
+  {
+    name: 'React.js',
+    icon: FaReact,
+    level: 86,
+    category: 'Frameworks',
+    color: '#61DAFB',
+    summary: 'Reusable component systems, custom hooks, and state management.',
+  },
+  {
+    name: 'Vite',
+    icon: SiVite,
+    level: 84,
+    category: 'Frameworks',
+    color: '#646CFF',
+    summary: 'Rapid SPA scaffolding, fast HMR workflows, and optimized bundling.',
+  },
+  {
+    name: 'Tailwind CSS',
+    icon: SiTailwindcss,
+    level: 90,
+    category: 'Styling',
+    color: '#06B6D4',
+    summary: 'Utility-first design systems, responsive grids, and custom themes.',
+  },
+  {
+    name: 'Responsive Design',
+    icon: MdDevices,
+    level: 90,
+    category: 'Styling',
+    color: '#10B981',
+    summary: 'Mobile-first interfaces crafted seamlessly across all viewports.',
+  },
+  {
+    name: 'CSS Grid & Flexbox',
+    icon: MdGridView,
+    level: 91,
+    category: 'Styling',
+    color: '#2DD4BF',
+    summary: 'Fluid two-dimensional page structures and precise alignment.',
+  },
+  {
+    name: 'Git & GitHub',
+    icon: FaGitAlt,
+    level: 88,
+    category: 'Tools',
+    color: '#F05032',
+    summary: 'Clean branching workflows, version control, and collaborative repos.',
+  },
+  {
+    name: 'Axios & REST APIs',
+    icon: SiAxios,
+    level: 82,
+    category: 'Tools',
+    color: '#5A29E4',
+    summary: 'Asynchronous data fetching, error handling, and live API integration.',
+  },
+  {
+    name: 'Local Storage',
+    icon: MdStorage,
+    level: 85,
+    category: 'Tools',
+    color: '#34D399',
+    summary: 'Client-side data persistence across sessions without heavy overhead.',
+  },
+  {
+    name: 'Framer Motion',
+    icon: SiFramer,
+    level: 78,
+    category: 'Other Technologies',
+    color: '#0055FF',
+    summary: 'Scroll reveals, shared layout transitions, and fluid micro-interactions.',
+  },
+  {
+    name: 'Swiper.js',
+    icon: SiSwiper,
+    level: 80,
+    category: 'Other Technologies',
+    color: '#6332F6',
+    summary: 'Touch-friendly carousels and interactive media sliders.',
+  },
+  {
+    name: 'OpenWeatherMap API',
+    icon: MdCloudQueue,
+    level: 82,
+    category: 'Other Technologies',
+    color: '#F59E0B',
+    summary: 'Real-time meteorological data and multi-day forecast rendering.',
+  },
+];
+
+export const projectCategories = [
+  'All',
+  'Next.js',
+  'React.js',
+  'E-commerce',
+  'Web Applications',
+  'JavaScript',
 ];
 
 export const projects = [
   {
+    id: 11,
+    title: 'Pulsamento',
+    categoryLabel: 'Music & Rhythm Platform',
+    description:
+      'Pulsamento is a modern music and rhythm-focused platform designed to explore musical creativity, melodic harmony, rhythmic patterns, music production, and educational content.',
+    purpose:
+      'Built to make rhythm training, melodic craft, and studio production approachable through interactive timing visualizers and editorial songwriting resources.',
+    features: [
+      'Music and rhythm educational content',
+      'Interactive BPM and rhythm visualizer',
+      'Multiple time signatures including 4/4, 3/4, and 6/8',
+      'Music production and songwriting guides',
+      'Editorial blog and educational resources',
+    ],
+    image: '/images/pulsamento.png',
+    technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Zod'],
+    categories: ['Next.js', 'React.js', 'Web Applications'],
+    liveUrl: 'https://pulsamento.vercel.app/',
+    githubUrl: 'https://github.com/Muhammadkashifsaeed/Pulsamento',
+    featured: true,
+  },
+  {
+    id: 12,
+    title: "Mitul's Market",
+    categoryLabel: 'E-commerce Platform',
+    description:
+      "Mitul's Market is a modern e-commerce platform focused on electronics, technology gadgets, accessories, and lifestyle products with curated product discovery and organized categories.",
+    purpose:
+      'Engineered as a responsive, modern online storefront supporting fast product search, cart workflows, order history, and transparent product discovery.',
+    features: [
+      'Modern e-commerce storefront',
+      'Product search and category browsing',
+      'Featured and trending products',
+      'Shopping cart & order history',
+      'Product ratings and pricing displays',
+      'Customer support and information pages',
+    ],
+    image: '/images/mitul-s-market.png',
+    technologies: [
+      'Next.js',
+      'React',
+      'TypeScript',
+      'Tailwind CSS',
+      'Framer Motion',
+      'React Hook Form',
+      'Axios',
+    ],
+    categories: ['Next.js', 'React.js', 'E-commerce', 'Web Applications'],
+    liveUrl: 'https://mitul-s-market.vercel.app/',
+    githubUrl: 'https://github.com/Muhammadkashifsaeed/Mitul-s-Market',
+    featured: true,
+  },
+  {
+    id: 13,
+    title: 'UploadBlog',
+    categoryLabel: 'Blog & Content Publishing Platform',
+    description:
+      'UploadBlog is a modern editorial and content publishing platform providing informative articles, technology insights, AI tools, gaming content, business information, product reviews, and practical guides.',
+    purpose:
+      'Designed as an organized multi-category digital publication helping readers explore AI tools, tech guides, business insights, and practical reviews without noise.',
+    features: [
+      'Modern blog and magazine layout',
+      'Multiple content categories & discovery',
+      'AI tools and technology articles',
+      'Featured articles and editorial sections',
+      'Dedicated blog detail pages',
+      'SEO-friendly content structure',
+    ],
+    image: '/images/uplodblog.png',
+    technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Zod'],
+    categories: ['Next.js', 'React.js', 'Web Applications'],
+    liveUrl: 'https://uplodblog.vercel.app/',
+    githubUrl: 'https://github.com/Muhammadkashifsaeed/uplodblog',
+    featured: true,
+  },
+  {
+    id: 14,
+    title: 'HopeNest',
+    categoryLabel: 'Community & Social Impact Platform',
+    description:
+      'HopeNest is a community-focused events platform designed to connect people through volunteer activities, social development initiatives, donations, environmental workshops, and meaningful community events.',
+    purpose:
+      'Created to unite volunteers, donors, and community organizers through filterable local event discovery and direct social-impact participation.',
+    features: [
+      'Community event discovery & upcoming listings',
+      'Event categories and location filters',
+      'Volunteer and donation initiatives',
+      'Event details and community engagement pages',
+      'Newsletter subscription interface',
+    ],
+    image: '/images/hopenest.png',
+    technologies: [
+      'Next.js',
+      'React',
+      'TypeScript',
+      'Tailwind CSS',
+      'Framer Motion',
+      'React Hook Form',
+      'Axios',
+    ],
+    categories: ['Next.js', 'React.js', 'Web Applications'],
+    liveUrl: 'https://hope-nest-orpin.vercel.app/',
+    githubUrl: 'https://github.com/Muhammadkashifsaeed/Hope-nest',
+    featured: true,
+  },
+  {
+    id: 15,
+    title: 'Cowgenic',
+    categoryLabel: 'AI, IoT & AgriTech Platform',
+    description:
+      'Cowgenic is an innovative smart dairy farming platform introducing an AI-powered smart cow neck-collar monitoring system that tracks behavior, feeding patterns, rumination, and heat detection.',
+    purpose:
+      'Built to bring precision AgriTech and IoT livestock monitoring to dairy farms with real-time herd health alerts, fertility timing, and theft protection.',
+    features: [
+      'Smart cow neck-collar monitoring system',
+      'Eating time and rumination monitoring',
+      'Animal activity tracking & theft alerts',
+      'Heat detection & insemination timing insights',
+      'Dairy farm monitoring dashboard overview',
+    ],
+    image: '/images/cowgenic.png',
+    technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Zod'],
+    categories: ['Next.js', 'React.js', 'Web Applications'],
+    liveUrl: 'https://cowgenic.vercel.app/',
+    githubUrl: 'https://github.com/Muhammadkashifsaeed/cowgenic',
+    featured: true,
+  },
+  {
     id: 1,
     title: 'Grillados',
-    description: 'A modern fast food web application offering an intuitive ordering experience and vibrant UI.',
+    categoryLabel: 'Restaurant & Food Ordering',
+    description:
+      'A modern fast food web application offering an intuitive ordering experience and vibrant UI.',
     image: '/images/grillados.png',
     technologies: ['Next.js', 'React', 'Tailwind CSS'],
+    categories: ['Next.js', 'E-commerce', 'Web Applications'],
     liveUrl: 'https://grillados-2.vercel.app/',
     githubUrl: 'https://github.com/Muhammadkashifsaeed/grillados',
-    featured: true
+    featured: true,
   },
   {
     id: 2,
     title: 'Integrity Specialists International',
-    description: 'Proven professional and technical solutions for domestic & international customers in onshore and offshore projects and asset lifecycles.',
+    categoryLabel: 'Industrial Services Portal',
+    description:
+      'Proven professional and technical solutions for domestic & international customers in onshore and offshore projects and asset lifecycles.',
     image: '/images/Integrity.png',
     technologies: ['Next.js', 'React', 'Tailwind CSS'],
+    categories: ['Next.js'],
     liveUrl: 'https://system-dusky-mu.vercel.app/',
     githubUrl: 'https://github.com/Muhammadkashifsaeed/System',
-    featured: true
-  },
-  {
-    id: 3,
-    title: 'Corporate Website',
-    description: 'Get a smart Way For Your Business. Agile helps you convert data into a strategic asset and top-notch business insights.',
-    image: '/images/sinee.png',
-    technologies: ['Next.js', 'React', 'Tailwind CSS'],
-    liveUrl: 'https://corporate-website-black-six.vercel.app/',
-    githubUrl: 'https://github.com/Muhammadkashifsaeed/corporate-website',
-    featured: true
+    featured: true,
   },
   {
     id: 4,
     title: 'AI Ranking Checker',
-    description: 'Know How AI Sees Your Brand. Track brand visibility across ChatGPT, Perplexity, Gemini, Claude, and AI-powered search.',
+    categoryLabel: 'AI Visibility SaaS',
+    description:
+      'Know How AI Sees Your Brand. Track brand visibility across ChatGPT, Perplexity, Gemini, Claude, and AI-powered search.',
     image: '/images/tacks.png',
     technologies: ['Next.js', 'React', 'Tailwind CSS'],
+    categories: ['Next.js', 'Web Applications'],
     liveUrl: 'https://ai-ranking-checker.vercel.app/en',
     githubUrl: 'https://github.com/Muhammadkashifsaeed/ai-ranking-checker',
-    featured: true
+    featured: true,
   },
   {
     id: 5,
     title: 'Netflix Clone',
-    description: 'A fully responsive movie streaming web application clone featuring detailed movie info and a sleek dark UI.',
+    categoryLabel: 'Streaming Entertainment UI',
+    description:
+      'A fully responsive movie streaming web application clone featuring detailed movie info and a sleek dark UI.',
     image: '/images/saremes.png',
     technologies: ['Next.js', 'React', 'Tailwind CSS'],
+    categories: ['Next.js', 'Web Applications'],
     liveUrl: 'https://tvstartstup.vercel.app/',
     githubUrl: 'https://github.com/Muhammadkashifsaeed/tvstartstup',
-    featured: true
-  },
-  {
-    id: 6,
-    title: 'Weather App',
-    description: 'Real-time weather updates worldwide. Get current temperature, humidity, wind speed, and 5-day forecast for any city. Built with OpenWeatherMap API.',
-    image: '/images/weather-app.png',
-    technologies: ['React', 'Vite', 'OpenWeatherMap API', 'Tailwind CSS', 'Axios'],
-    liveUrl: 'https://weather-app-u3su.vercel.app/',
-    githubUrl: 'https://github.com/Muhammadkashifsaeed/Weather-app',
-    featured: true
-  },
-  {
-    id: 7,
-    title: 'Todo App',
-    description: 'Task management application with add, edit, delete, and mark complete features. Tasks saved in local storage for persistence across sessions.',
-    image: '/images/todo-app.png',
-    technologies: ['React', 'Vite', 'Local Storage', 'Tailwind CSS', 'React Icons'],
-    liveUrl: 'https://app-todo-io8y.vercel.app/',
-    githubUrl: 'https://github.com/Muhammadkashifsaeed/App-todo',
-    featured: true
-  },
-  {
-    id: 8,
-    title: 'Real Estate Website',
-    description: 'Modern property listing platform with advanced search filters, property categories, agent profiles, and contact forms. Fully responsive design.',
-    image: '/images/real-estate.png',
-    technologies: ['React', 'Vite', 'Framer Motion', 'Tailwind CSS', 'Swiper.js'],
-    liveUrl: 'https://real-estate-website-83fh.vercel.app/',
-    githubUrl: 'https://github.com/Muhammadkashifsaeed/Real-Estate-Website',
-    featured: true
-  },
-  {
-    id: 9,
-    title: 'Calculator App',
-    description: 'A fully functional calculator application with basic arithmetic operations (add, subtract, multiply, divide). Clean UI with responsive design and keyboard support.',
-    image: '/images/calculator.png',
-    technologies: ['React', 'Vite', 'Tailwind CSS', 'JavaScript', 'CSS Grid'],
-    liveUrl: 'https://calculator-xi-kohl-27.vercel.app/',
-    githubUrl: 'https://github.com/Muhammadkashifsaeed/Calculator',
-    featured: true
+    featured: true,
   },
   {
     id: 10,
     title: 'Monster IPTV',
-    description: 'Monster TV erbjuder en modern och användarvänlig streamingupplevelse för dig som vill njuta av digital underhållning på ett enkelt sätt. Upptäck tillgängligt innehåll inom sport, filmer, serier och liveunderhållning via kompatibla enheter.',
+    categoryLabel: 'Digital Streaming Platform',
+    description:
+      'Monster TV erbjuder en modern och användarvänlig streamingupplevelse för dig som vill njuta av digital underhållning på ett enkelt sätt. Upptäck tillgängligt innehåll inom sport, filmer, serier och liveunderhållning via kompatibla enheter.',
     image: '/images/monster iptv.png',
     technologies: ['Next.js', 'React', 'Tailwind CSS'],
+    categories: ['Next.js', 'Web Applications'],
     liveUrl: 'https://monsteriptv-beryl.vercel.app/',
     githubUrl: 'https://github.com/Muhammadkashifsaeed/monsteriptv.git',
-    featured: true
-  }
+    featured: true,
+  },
+  {
+    id: 8,
+    title: 'Real Estate Website',
+    categoryLabel: 'Property Marketplace',
+    description:
+      'Modern property listing platform with advanced search filters, property categories, agent profiles, and contact forms. Fully responsive design.',
+    image: '/images/real-estate.png',
+    technologies: ['React', 'Vite', 'Framer Motion', 'Tailwind CSS', 'Swiper.js'],
+    categories: ['React.js', 'Web Applications'],
+    liveUrl: 'https://real-estate-website-83fh.vercel.app/',
+    githubUrl: 'https://github.com/Muhammadkashifsaeed/Real-Estate-Website',
+    featured: true,
+  },
+  {
+    id: 6,
+    title: 'Weather App',
+    categoryLabel: 'Weather Forecast App',
+    description:
+      'Real-time weather updates worldwide. Get current temperature, humidity, wind speed, and 5-day forecast for any city. Built with OpenWeatherMap API.',
+    image: '/images/weather-app.png',
+    technologies: ['React', 'Vite', 'OpenWeatherMap API', 'Tailwind CSS', 'Axios'],
+    categories: ['React.js', 'JavaScript', 'Web Applications'],
+    liveUrl: 'https://weather-app-u3su.vercel.app/',
+    githubUrl: 'https://github.com/Muhammadkashifsaeed/Weather-app',
+    featured: true,
+  },
+  {
+    id: 7,
+    title: 'Todo App',
+    categoryLabel: 'Task Productivity App',
+    description:
+      'Task management application with add, edit, delete, and mark complete features. Tasks saved in local storage for persistence across sessions.',
+    image: '/images/todo-app.png',
+    technologies: ['React', 'Vite', 'Local Storage', 'Tailwind CSS', 'React Icons'],
+    categories: ['React.js', 'JavaScript', 'Web Applications'],
+    liveUrl: 'https://app-todo-io8y.vercel.app/',
+    githubUrl: 'https://github.com/Muhammadkashifsaeed/App-todo',
+    featured: true,
+  },
+  {
+    id: 9,
+    title: 'Calculator App',
+    categoryLabel: 'Interactive Utility App',
+    description:
+      'A fully functional calculator application with basic arithmetic operations (add, subtract, multiply, divide). Clean UI with responsive design and keyboard support.',
+    image: '/images/calculator.png',
+    technologies: ['React', 'Vite', 'Tailwind CSS', 'JavaScript', 'CSS Grid'],
+    categories: ['React.js', 'JavaScript', 'Web Applications'],
+    liveUrl: 'https://calculator-xi-kohl-27.vercel.app/',
+    githubUrl: 'https://github.com/Muhammadkashifsaeed/Calculator',
+    featured: true,
+  },
 ];
 
 export const experience = [
@@ -129,39 +410,80 @@ export const experience = [
     role: 'Frontend Developer',
     company: 'Digistartp UK',
     period: 'May 2026 - Present',
-    description: 'Developing and maintaining modern, responsive web applications using React.js and Next.js. Collaborating with the team to deliver high-quality digital products and seamless user experiences.',
-    type: 'work'
+    description:
+      'Developing and maintaining modern, responsive web applications using React.js and Next.js. Collaborating with the team to deliver high-quality digital products and seamless user experiences.',
+    highlights: ['Next.js', 'React.js', 'Tailwind CSS', 'Responsive UI'],
+    type: 'work',
   },
   {
     id: 2,
     role: 'Frontend Development (Self-Learning)',
     company: 'Self-Taught & Practice Projects',
     period: 'Jan 2026 - May 2026',
-    description: 'Dedicated time to advance skills in modern web technologies including Next.js, advanced React patterns, and Tailwind CSS. Built complex practice projects to prepare for a full-time role.',
-    type: 'certification'
+    description:
+      'Dedicated time to advance skills in modern web technologies including Next.js, advanced React patterns, and Tailwind CSS. Built complex practice projects to prepare for a full-time role.',
+    highlights: ['Next.js Patterns', 'API Integration', 'Git & GitHub', 'Real-World Builds'],
+    type: 'certification',
   },
   {
     id: 3,
     role: 'BS Computer Science',
     company: 'COMSATS University Islamabad, Vehari Campus',
-    period: '2022 - Jan 2026',
-    description: 'Completed degree with a strong foundation in computer science and a passion for frontend development. Learned core programming concepts, data structures, and web development fundamentals.',
-    type: 'education'
-  }
+    period: 'Feb 2022 - Jan 2026',
+    description:
+      'Completed degree with a strong foundation in computer science and a passion for frontend development. Learned core programming concepts, data structures, and web development fundamentals.',
+    highlights: ['Computer Science', 'Data Structures', 'Web Fundamentals'],
+    type: 'education',
+  },
+  {
+    id: 4,
+    role: 'FSc ICS (Intermediate in Computer Science)',
+    company: 'Al Farooq Higher Secondary School, Chowk Permit',
+    period: 'Apr 2019 - May 2021',
+    description:
+      'Completed higher secondary education with a focus on computer science, mathematics, and analytical problem-solving.',
+    highlights: ['Computer Science', 'Mathematics'],
+    type: 'education',
+  },
+  {
+    id: 5,
+    role: 'Matriculation',
+    company: 'Asif Saleem Higher Secondary School, Alipur',
+    period: 'Jan 2017 - Mar 2019',
+    description:
+      'Completed secondary school education, building early academic discipline and foundational science and computing skills.',
+    highlights: ['Science & Computing'],
+    type: 'education',
+  },
 ];
 
 export const personalInfo = {
   name: 'Kashif Saeed',
+  shortName: 'Kashif',
+  initials: 'KS',
   title: 'Next.js Developer',
-  tagline: 'Crafting beautiful, responsive, and user-friendly web experiences with Next.js and Tailwind CSS',
+  roles: [
+    'Next.js Developer',
+    'Frontend Engineer',
+    'React & Tailwind Specialist',
+  ],
+  tagline:
+    'Crafting beautiful, responsive, and user-friendly web experiences with Next.js and Tailwind CSS.',
   email: 'kashifsaeed8856@gmail.com',
   phone: '+92 306 2933633',
-  location: 'Lahore Pakistan',
+  whatsappNumber: '923062933633',
+  location: 'Lahore, Pakistan',
+  languages: ['English', 'Urdu'],
+  availability: 'Open to Frontend Projects & Roles',
+  resumePath: '/resume.pdf',
+  resumeDownloadName: 'Kashif_Saeed_Resume.pdf',
   social: {
-    github: 'https://github.com/Muhammadkashifsaeed',  // keep as placeholder or replace with your GitHub URL
-    linkedin: 'https://www.linkedin.com/in/kashif-saeed-232b883a2?utm_source=share_via&utm_content=profile&utm_medium=member_android',
-    instagram: 'https://www.instagram.com/malikkashif048048?igsh=cmtjcGpqNHBpaTZv',
+    github: 'https://github.com/Muhammadkashifsaeed',
+    linkedin:
+      'https://www.linkedin.com/in/kashif-saeed-232b883a2?utm_source=share_via&utm_content=profile&utm_medium=member_android',
+    instagram:
+      'https://www.instagram.com/malikkashif048048?igsh=cmtjcGpqNHBpaTZv',
     facebook: 'https://www.facebook.com/share/1CRuXrEn2H/',
-    whatsapp: `https://wa.me/3062933633`
-  }
+    whatsapp: 'https://wa.me/923062933633',
+  },
 };

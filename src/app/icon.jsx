@@ -15,19 +15,18 @@ export default function Icon() {
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: '50%',
-          backgroundColor: '#1e1e2f',
-          overflow: 'hidden',
-          border: '12px solid #6366f1',
+          backgroundColor: '#070709',
+          border: '14px solid #d2ff28',
           boxSizing: 'border-box',
+          color: '#f6f3ec',
+          fontSize: 108,
+          fontWeight: 800,
+          letterSpacing: '-0.04em',
+          fontFamily: 'sans-serif',
         }}
       >
-        {/* Using GitHub avatar to ensure it's a perfect square and easily accessible by the edge runtime */}
-        <img 
-          src="https://github.com/Muhammadkashifsaeed.png" 
-          width="100%" 
-          height="100%"
-          style={{ objectFit: 'cover' }}
-        />
+        <span>K</span>
+        <span style={{ color: '#d2ff28' }}>S</span>
       </div>
     ),
     { ...size }

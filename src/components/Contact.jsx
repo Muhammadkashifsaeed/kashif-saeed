@@ -1,219 +1,374 @@
-﻿"use client";
-import React, { useRef, useState } from 'react'
-import emailjs from '@emailjs/browser'
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaGithub, FaLinkedin, FaFacebook, FaInstagram, FaPaperPlane, FaCheck, FaWhatsapp } from 'react-icons/fa';
+'use client';
+import { useRef, useState } from 'react';
+import emailjs from '@emailjs/browser';
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+  AlertCircle,
+  Check,
+  CheckCircle2,
+  Clock,
+  Copy,
+  Globe,
+  Loader2,
+  Mail,
+  MapPin,
+  MessageSquare,
+  Phone,
+  Send,
+} from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
-import { useInView } from '../hooks/useInView';
+import Magnetic from './motion/Magnetic';
+import SplitText from './motion/SplitText';
 
-const Contact = () => {
-  const form = useRef()
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [errors, setErrors] = useState({})
+const SERVICE_ID = 'service_oaf18e6';
+const TEMPLATE_ID = 'template_wkd794c';
+const PUBLIC_KEY = 'qFJSc5OzquI84lY6L';
 
-  // âœ… EmailJS IDs
-  const SERVICE_ID = "service_oaf18e6"           
-  const TEMPLATE_ID = "template_wkd794c"    
-  const PUBLIC_KEY = "qFJSc5OzquI84lY6L"    
+export default function Contact() {
+  const formRef = useRef(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [copiedEmail, setCopiedEmail] = useState(false);
 
-  // Animation refs
-  const [headingRef, isHeadingInView] = useInView({ once: true, delay: 0 });
-  const [contactInfoRef, isContactInfoInView] = useInView({ once: true, delay: 100 });
-  const [formRef, isFormInView] = useInView({ once: true, delay: 200 });
-
-  // âœ… WhatsApp link banane ka safe function
-  const getWhatsAppLink = () => {
-    const whatsappNumber = personalInfo?.whatsapp || personalInfo?.social?.whatsapp || '923062933633';
-    return `https://wa.me/${whatsappNumber}`;
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(personalInfo.email);
+      setCopiedEmail(true);
+      setTimeout(() => setCopiedEmail(false), 2200);
+    } catch {
+      // Clipboard API unavailable
+    }
   };
 
-  // Form validation
-  const validateForm = (formData) => {
-    const newErrors = {};
-    if (!formData.get('from_name').trim()) newErrors.from_name = 'Name is required';
-    if (!formData.get('from_email').trim()) {
-      newErrors.from_email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.get('from_email'))) {
-      newErrors.from_email = 'Please enter a valid email';
+  const validate = (formData) => {
+    const nextErrors = {};
+    const name = String(formData.get('from_name') || '').trim();
+    const email = String(formData.get('from_email') || '').trim();
+    const subject = String(formData.get('subject') || '').trim();
+    const message = String(formData.get('message') || '').trim();
+
+    if (name.length < 2) nextErrors.from_name = 'Please enter your name.';
+    if (!email) {
+      nextErrors.from_email = 'Email address is required.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      nextErrors.from_email = 'Please enter a valid email address.';
     }
-    if (!formData.get('message').trim()) newErrors.message = 'Message is required';
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    if (subject.length < 3) nextErrors.subject = 'Please enter a subject.';
+    if (message.length < 10) nextErrors.message = 'Please write at least 10 characters.';
+
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
   };
 
-  const sendEmail = (e) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    setErrors({})
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus(null);
+    const formData = new FormData(formRef.current);
+    if (!validate(formData)) return;
 
-    const formData = new FormData(form.current)
-    if (!validateForm(formData)) {
-      setIsSubmitting(false)
-      return
+    setIsSubmitting(true);
+    try {
+      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY);
+      setStatus({
+        type: 'success',
+        text: 'Message delivered. Thank you for reaching out — I will respond shortly.',
+      });
+      formRef.current.reset();
+      setErrors({});
+    } catch (err) {
+      console.error('EmailJS Error:', err);
+      setStatus({
+        type: 'error',
+        text: `Could not submit via form right now. Please write directly to ${personalInfo.email}.`,
+      });
+    } finally {
+      setIsSubmitting(false);
     }
-
-    emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUBLIC_KEY)
-      .then((result) => {
-        console.log('Message sent:', result.text)
-        setIsSubmitted(true)
-        form.current.reset()
-        setTimeout(() => setIsSubmitted(false), 3000)
-      })
-      .catch((error) => {
-        console.log('Error:', error.text)
-        setErrors({ submit: 'Failed to send message. Please try again.' })
-      })
-      .finally(() => {
-        setIsSubmitting(false)
-      })
-  }
+  };
 
   return (
-    <section id="contact" className="py-20 md:py-32 relative">
-      <div className="absolute top-1/4 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl -z-10" />
-      <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl -z-10" />
-
+    <section id="contact" className="py-24 md:py-36 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Heading */}
-        <div
-          ref={headingRef}
-          className="text-center mb-16 transition-all duration-600"
-          style={{
-            opacity: isHeadingInView ? 1 : 0,
-            transform: isHeadingInView ? 'translateY(0)' : 'translateY(20px)'
-          }}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Get In <span className="text-gradient">Touch</span>
-          </h2>
-          <p className="text-dark-200 text-lg max-w-2xl mx-auto">
-            Have a project in mind or want to collaborate? I'd love to hear from you.
-          </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-accent to-purple-600 mx-auto rounded-full mt-6" />
+        {/* Header Bar */}
+        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-12 border-b border-line">
+          <span className="index-tag">
+            <MessageSquare className="w-3.5 h-3.5 text-highlight" />
+            <span>06 / Initiate Collaboration</span>
+          </span>
+          <span className="font-mono text-xs text-muted">
+            {personalInfo.availability}
+          </span>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-12">
-          {/* Contact Info - Left Side */}
-          <div
-            ref={contactInfoRef}
-            className="lg:col-span-2 space-y-8 transition-all duration-700"
-            style={{
-              opacity: isContactInfoInView ? 1 : 0,
-              transform: isContactInfoInView ? 'translateY(0)' : 'translateY(30px)'
-            }}
-          >
-            <div>
-              <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
-              <div className="space-y-6">
-                {/* Email */}
-                <div className="flex items-start gap-4 hover-lift">
-                  <div className="w-12 h-12 rounded-full glass flex items-center justify-center text-accent">
-                    <FaEnvelope size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-lg">Email</h4>
-                    <a href={`mailto:${personalInfo?.email || 'your-email@gmail.com'}`} className="text-dark-200 hover:text-accent transition-colors">
-                      {personalInfo?.email || 'your-email@gmail.com'}
-                    </a>
-                  </div>
-                </div>
+        {/* Monumental Headline */}
+        <div className="mb-14 max-w-4xl">
+          <h2 className="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-ink leading-[0.98]">
+            <SplitText text="Let's build something" mode="words" />{' '}
+            <span className="font-serif italic font-normal text-highlight">
+              extraordinary.
+            </span>
+          </h2>
+        </div>
 
-                {/* Phone */}
-                <div className="flex items-start gap-4 hover-lift">
-                  <div className="w-12 h-12 rounded-full glass flex items-center justify-center text-accent">
-                    <FaPhone size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-lg">Phone</h4>
-                    <a href={`tel:${personalInfo?.phone || '+92 123 4567890'}`} className="text-dark-200 hover:text-accent transition-colors">
-                      {personalInfo?.phone || '+92 123 4567890'}
-                    </a>
-                  </div>
-                </div>
+        <div className="grid lg:grid-cols-12 gap-10 items-start">
+          {/* Left Column: Direct Channels (No Social Icons Here — Footer Only) */}
+          <div className="lg:col-span-5 space-y-5">
+            <div className="editorial-panel rounded-[2rem] p-6 sm:p-8 space-y-5">
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-subtle">
+                Direct Channels
+              </p>
 
-                {/* Location */}
-                <div className="flex items-start gap-4 hover-lift">
-                  <div className="w-12 h-12 rounded-full glass flex items-center justify-center text-accent">
-                    <FaMapMarkerAlt size={20} />
+              {/* Email + Copy */}
+              <div className="flex items-center justify-between gap-3 py-3 border-b border-line">
+                <a
+                  href={`mailto:${personalInfo.email}`}
+                  className="flex items-center gap-3 min-w-0 group"
+                >
+                  <span className="w-10 h-10 rounded-full border border-line bg-elevated flex items-center justify-center text-highlight shrink-0">
+                    <Mail className="w-4 h-4" />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="font-mono text-[10px] uppercase tracking-wider text-subtle">
+                      Email
+                    </p>
+                    <p className="text-sm font-semibold text-ink group-hover:text-highlight transition-colors truncate">
+                      {personalInfo.email}
+                    </p>
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-lg">Location</h4>
-                    <p className="text-dark-200">{personalInfo?.location || 'Pakistan'}</p>
-                  </div>
+                </a>
+
+                <button
+                  type="button"
+                  onClick={handleCopyEmail}
+                  aria-label="Copy email address"
+                  className="w-9 h-9 rounded-full border border-line bg-surface hover:border-highlight flex items-center justify-center text-muted hover:text-highlight transition-colors shrink-0"
+                >
+                  {copiedEmail ? (
+                    <Check className="w-4 h-4 text-highlight" />
+                  ) : (
+                    <Copy className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
+
+              {/* Phone */}
+              <a
+                href={`tel:${personalInfo.phone.replace(/\s+/g, '')}`}
+                className="flex items-center gap-3 py-3 border-b border-line group"
+              >
+                <span className="w-10 h-10 rounded-full border border-line bg-elevated flex items-center justify-center text-cyan-ink shrink-0">
+                  <Phone className="w-4 h-4" />
+                </span>
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-wider text-subtle">
+                    Phone
+                  </p>
+                  <p className="text-sm font-semibold text-ink group-hover:text-highlight transition-colors">
+                    {personalInfo.phone}
+                  </p>
+                </div>
+              </a>
+
+              {/* Location */}
+              <div className="flex items-center gap-3 py-3 border-b border-line">
+                <span className="w-10 h-10 rounded-full border border-line bg-elevated flex items-center justify-center text-signal-ink shrink-0">
+                  <MapPin className="w-4 h-4" />
+                </span>
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-wider text-subtle">
+                    Location
+                  </p>
+                  <p className="text-sm font-semibold text-ink">
+                    {personalInfo.location}
+                  </p>
                 </div>
               </div>
-            </div>
 
-            {/* Social Links - âœ… WhatsApp Fixed */}
-            <div className="pt-8 border-t border-dark-700">
-              <h4 className="text-lg font-semibold mb-4">Connect with me</h4>
-              <div className="flex gap-4 flex-wrap">
-                <a href={personalInfo?.social?.github || '#'} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full glass flex items-center justify-center text-dark-300 hover:text-white hover:bg-accent/20 transition-all hover-lift">
-                  <FaGithub size={20} />
-                </a>
-                <a href={personalInfo?.social?.linkedin || '#'} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full glass flex items-center justify-center text-dark-300 hover:text-white hover:bg-accent/20 transition-all hover-lift">
-                  <FaLinkedin size={20} />
-                </a>
-                <a href={personalInfo?.social?.facebook || '#'} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full glass flex items-center justify-center text-dark-300 hover:text-white hover:bg-accent/20 transition-all hover-lift">
-                  <FaFacebook size={20} />
-                </a>
-                <a href={personalInfo?.social?.instagram || '#'} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full glass flex items-center justify-center text-dark-300 hover:text-white hover:bg-accent/20 transition-all hover-lift">
-                  <FaInstagram size={20} />
-                </a>
-                {/* âœ… WhatsApp - Ab sahi kaam karega */}
-                <a href={getWhatsAppLink()} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full glass flex items-center justify-center text-dark-300 hover:text-white hover:bg-accent/20 transition-all hover-lift">
-                  <FaWhatsapp size={20} />
-                </a>
+              {/* Availability & Languages */}
+              <div className="grid grid-cols-2 gap-3 pt-1">
+                <div className="rounded-2xl bg-elevated/70 border border-line p-3.5">
+                  <div className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-subtle">
+                    <Clock className="w-3.5 h-3.5 text-highlight" />
+                    Response
+                  </div>
+                  <p className="text-sm font-semibold text-ink mt-1">Within 24h</p>
+                </div>
+                <div className="rounded-2xl bg-elevated/70 border border-line p-3.5">
+                  <div className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-subtle">
+                    <Globe className="w-3.5 h-3.5 text-cyan-ink" />
+                    Languages
+                  </div>
+                  <p className="text-sm font-semibold text-ink mt-1">
+                    {personalInfo.languages.join(', ')}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Contact Form - Right Side */}
-          <div
-            ref={formRef}
-            className="lg:col-span-3 transition-all duration-700"
-            style={{
-              opacity: isFormInView ? 1 : 0,
-              transform: isFormInView ? 'translateY(0)' : 'translateY(30px)'
-            }}
-          >
-            <div className="glass rounded-2xl p-8">
-              <form ref={form} onSubmit={sendEmail} className="space-y-6">
+          {/* Right Column: Brief Form */}
+          <div className="lg:col-span-7">
+            <div className="editorial-panel rounded-[2rem] p-6 sm:p-10">
+              <form ref={formRef} onSubmit={handleSubmit} noValidate className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="from_name" className="block text-sm font-medium mb-2">Your Name</label>
-                    <input type="text" id="from_name" name="from_name" required
-                      className={`w-full px-4 py-3 bg-dark-800 border rounded-lg focus:ring-2 focus:ring-accent outline-none text-white ${errors.from_name ? 'border-red-500' : 'border-dark-700'}`}
-                      placeholder="John Doe" />
-                    {errors.from_name && <p className="text-red-400 text-sm mt-1">{errors.from_name}</p>}
+                    <label
+                      htmlFor="from_name"
+                      className="block font-mono text-xs uppercase tracking-wider text-muted mb-2"
+                    >
+                      01 / Your Name
+                    </label>
+                    <input
+                      id="from_name"
+                      name="from_name"
+                      type="text"
+                      required
+                      placeholder="John Doe"
+                      onChange={() =>
+                        errors.from_name &&
+                        setErrors((prev) => ({ ...prev, from_name: undefined }))
+                      }
+                      className={`w-full px-4 py-3.5 rounded-2xl bg-elevated/80 border text-ink placeholder:text-subtle focus:outline-none focus:border-highlight transition-colors ${
+                        errors.from_name ? 'border-signal-ink' : 'border-line'
+                      }`}
+                    />
+                    {errors.from_name && (
+                      <p className="mt-1.5 text-xs text-signal-ink font-medium">{errors.from_name}</p>
+                    )}
                   </div>
+
                   <div>
-                    <label htmlFor="from_email" className="block text-sm font-medium mb-2">Email Address</label>
-                    <input type="email" id="from_email" name="from_email" required
-                      className={`w-full px-4 py-3 bg-dark-800 border rounded-lg focus:ring-2 focus:ring-accent outline-none text-white ${errors.from_email ? 'border-red-500' : 'border-dark-700'}`}
-                      placeholder="john@example.com" />
-                    {errors.from_email && <p className="text-red-400 text-sm mt-1">{errors.from_email}</p>}
+                    <label
+                      htmlFor="from_email"
+                      className="block font-mono text-xs uppercase tracking-wider text-muted mb-2"
+                    >
+                      02 / Email Address
+                    </label>
+                    <input
+                      id="from_email"
+                      name="from_email"
+                      type="email"
+                      required
+                      placeholder="john@example.com"
+                      onChange={() =>
+                        errors.from_email &&
+                        setErrors((prev) => ({ ...prev, from_email: undefined }))
+                      }
+                      className={`w-full px-4 py-3.5 rounded-2xl bg-elevated/80 border text-ink placeholder:text-subtle focus:outline-none focus:border-highlight transition-colors ${
+                        errors.from_email ? 'border-signal-ink' : 'border-line'
+                      }`}
+                    />
+                    {errors.from_email && (
+                      <p className="mt-1.5 text-xs text-signal-ink font-medium">{errors.from_email}</p>
+                    )}
                   </div>
                 </div>
+
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium mb-2">Your Message</label>
-                  <textarea id="message" name="message" rows={6} required
-                    className={`w-full px-4 py-3 bg-dark-800 border rounded-lg focus:ring-2 focus:ring-accent outline-none text-white resize-none ${errors.message ? 'border-red-500' : 'border-dark-700'}`}
-                    placeholder="Tell me about your project..." />
-                  {errors.message && <p className="text-red-400 text-sm mt-1">{errors.message}</p>}
+                  <label
+                    htmlFor="subject"
+                    className="block font-mono text-xs uppercase tracking-wider text-muted mb-2"
+                  >
+                    03 / Subject
+                  </label>
+                  <input
+                    id="subject"
+                    name="subject"
+                    type="text"
+                    required
+                    placeholder="Frontend Role, Project Inquiry, or Collaboration"
+                    onChange={() =>
+                      errors.subject &&
+                      setErrors((prev) => ({ ...prev, subject: undefined }))
+                    }
+                    className={`w-full px-4 py-3.5 rounded-2xl bg-elevated/80 border text-ink placeholder:text-subtle focus:outline-none focus:border-highlight transition-colors ${
+                      errors.subject ? 'border-signal-ink' : 'border-line'
+                    }`}
+                  />
+                  {errors.subject && (
+                    <p className="mt-1.5 text-xs text-signal-ink font-medium">{errors.subject}</p>
+                  )}
                 </div>
-                {errors.submit && <p className="text-red-400 text-sm text-center">{errors.submit}</p>}
-                <button type="submit" disabled={isSubmitting || isSubmitted}
-                  className={`w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 rounded-lg font-semibold transition-all duration-300 ${isSubmitting || isSubmitted ? 'bg-green-500 text-white cursor-default' : 'btn-primary hover-scale tap-scale'}`}>
-                  {isSubmitting ? <>Sending...</> : isSubmitted ? <><FaCheck /> Message Sent!</> : <><FaPaperPlane /> Send Message</>}
-                </button>
+
+                <div>
+                  <label
+                    htmlFor="message"
+                    className="block font-mono text-xs uppercase tracking-wider text-muted mb-2"
+                  >
+                    04 / Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={5}
+                    required
+                    placeholder="Tell me about your project, goals, or timeline..."
+                    onChange={() =>
+                      errors.message &&
+                      setErrors((prev) => ({ ...prev, message: undefined }))
+                    }
+                    className={`w-full px-4 py-3.5 rounded-2xl bg-elevated/80 border text-ink placeholder:text-subtle resize-none focus:outline-none focus:border-highlight transition-colors ${
+                      errors.message ? 'border-signal-ink' : 'border-line'
+                    }`}
+                  />
+                  {errors.message && (
+                    <p className="mt-1.5 text-xs text-signal-ink font-medium">{errors.message}</p>
+                  )}
+                </div>
+
+                <AnimatePresence>
+                  {status && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      className={`rounded-2xl p-4 flex items-start gap-3 text-sm border ${
+                        status.type === 'success'
+                          ? 'bg-highlight/10 border-highlight/35 text-ink'
+                          : 'bg-signal-ink/10 border-signal-ink/35 text-ink'
+                      }`}
+                    >
+                      {status.type === 'success' ? (
+                        <CheckCircle2 className="w-5 h-5 text-highlight shrink-0 mt-0.5" />
+                      ) : (
+                        <AlertCircle className="w-5 h-5 text-signal-ink shrink-0 mt-0.5" />
+                      )}
+                      <span>{status.text}</span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
+                  <Magnetic strength={0.22}>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="btn-volt disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span>Sending...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-4 h-4" />
+                          <span>Send Message</span>
+                        </>
+                      )}
+                    </button>
+                  </Magnetic>
+
+                  <span className="font-mono text-xs text-muted">
+                    Social links available in footer ↓
+                  </span>
+                </div>
               </form>
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
-
-export default Contact;

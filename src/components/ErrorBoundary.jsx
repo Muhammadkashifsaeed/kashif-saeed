@@ -1,4 +1,4 @@
-﻿"use client";
+'use client';
 import { Component } from 'react';
 
 class ErrorBoundary extends Component {
@@ -17,24 +17,29 @@ class ErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
-      return this.props.fallback || (
-        <div className="min-h-screen flex items-center justify-center bg-dark-950 text-white p-8">
-          <div className="max-w-lg text-center">
-            <h1 className="text-4xl font-bold mb-4 text-red-500">Oops! Something went wrong</h1>
-            <p className="mb-4 text-dark-200">
-              The portfolio encountered an error. Please check the browser console for details.
-            </p>
-            <pre className="bg-dark-900 p-4 rounded-lg text-left text-sm overflow-auto">
-              {this.state.error?.toString()}
-            </pre>
-            <button
-              onClick={() => window.location.reload()}
-              className="mt-6 btn-primary"
-            >
-              Reload Page
-            </button>
+      return (
+        this.props.fallback || (
+          <div className="min-h-screen flex items-center justify-center bg-canvas text-ink p-8">
+            <div className="max-w-lg text-center editorial-panel rounded-3xl p-8">
+              <h1 className="font-display text-3xl font-bold mb-3 text-signal-ink">
+                Something went wrong
+              </h1>
+              <p className="mb-4 text-muted text-sm">
+                The portfolio encountered an unexpected error. Please reload the page.
+              </p>
+              <pre className="bg-elevated p-4 rounded-xl text-left text-xs font-mono overflow-auto border border-line">
+                {this.state.error?.toString()}
+              </pre>
+              <button
+                type="button"
+                onClick={() => window.location.reload()}
+                className="mt-6 btn-volt"
+              >
+                Reload Page
+              </button>
+            </div>
           </div>
-        </div>
+        )
       );
     }
     return this.props.children;

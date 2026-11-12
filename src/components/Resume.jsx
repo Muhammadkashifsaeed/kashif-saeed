@@ -1,207 +1,179 @@
-﻿"use client";
-import { useState, useRef } from 'react';
-import { FaFilePdf, FaDownload, FaUpload, FaEye, FaTrash } from 'react-icons/fa';
-import { useInView } from '../hooks/useInView';
+'use client';
+import { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+  Download,
+  ExternalLink,
+  Eye,
+  EyeOff,
+  FileText,
+} from 'lucide-react';
+import { personalInfo } from '../data/portfolioData';
+import Magnetic from './motion/Magnetic';
+import SplitText from './motion/SplitText';
 
-const Resume = () => {
-  const [resumeFile, setResumeFile] = useState(null);
-  const [resumeUrl, setResumeUrl] = useState('/resume.pdf');
+export default function Resume() {
   const [showPreview, setShowPreview] = useState(false);
-  const fileInputRef = useRef(null);
-
-  const [headingRef, isHeadingInView] = useInView({ once: true, delay: 0 });
-  const [containerRef, isContainerInView] = useInView({ once: true, delay: 100 });
-  const [pdfIconRef, isPdfIconInView] = useInView({ once: true, delay: 200 });
-  const [fileInfoRef, isFileInfoInView] = useInView({ once: true, delay: 300 });
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file && file.type === 'application/pdf') {
-      setResumeFile(file);
-      const url = URL.createObjectURL(file);
-      setResumeUrl(url);
-    } else {
-      alert('Please upload a PDF file.');
-    }
-  };
-
-  const handleRemoveFile = () => {
-    setResumeFile(null);
-    setResumeUrl('/resume.pdf');
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
 
   const handleDownload = () => {
     const link = document.createElement('a');
-    link.href = resumeUrl;
-    link.download = resumeFile ? resumeFile.name : 'Kashif_Resume.pdf';
+    link.href = personalInfo.resumePath;
+    link.download = personalInfo.resumeDownloadName;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
-  const handleView = () => {
-    setShowPreview(!showPreview);
-  };
+  const dossierStats = [
+    { k: 'Candidate', v: personalInfo.name },
+    { k: 'Specialization', v: 'Next.js • React.js • Tailwind CSS' },
+    { k: 'Current Role', v: 'Frontend Developer @ Digistartp UK' },
+    { k: 'Education', v: 'BS Computer Science (COMSATS, 2026)' },
+    { k: 'Languages', v: personalInfo.languages.join(' / ') },
+    { k: 'Document Format', v: 'PDF — Ready for Download & Review' },
+  ];
 
   return (
-    <section id="resume" className="py-20 md:py-32 relative">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Heading */}
-        <div
-          ref={headingRef}
-          className="text-center mb-16 transition-all duration-600"
-          style={{
-            opacity: isHeadingInView ? 1 : 0,
-            transform: isHeadingInView ? 'translateY(0)' : 'translateY(20px)'
-          }}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            My <span className="text-gradient">Resume</span>
-          </h2>
-          <p className="text-dark-200 text-lg max-w-2xl mx-auto">
-            Download my resume or view it directly in your browser. You can also upload an updated version.
-          </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-accent to-purple-600 mx-auto rounded-full mt-6" />
+    <section
+      id="resume"
+      className="py-24 md:py-36 bg-contrast-canvas text-contrast-ink relative overflow-hidden transition-colors duration-500"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header Bar */}
+        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-12 border-b border-contrast-line">
+          <span className="font-mono text-xs uppercase tracking-[0.24em] text-contrast-muted flex items-center gap-2">
+            <FileText className="w-3.5 h-3.5" />
+            <span>05 / Curriculum Vitae</span>
+          </span>
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-contrast-muted">
+            {personalInfo.resumeDownloadName}
+          </span>
         </div>
 
-        {/* Main Container */}
-        <div
-          ref={containerRef}
-          className="glass rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden transition-all duration-700"
-          style={{
-            opacity: isContainerInView ? 1 : 0,
-            transform: isContainerInView ? 'scale(1)' : 'scale(0.95)'
-          }}
-        >
-          {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-bl-full -z-10" />
-          <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/10 rounded-tr-full -z-10" />
+        <div className="grid lg:grid-cols-12 gap-10 items-start">
+          {/* Left Editorial Statement & Actions */}
+          <div className="lg:col-span-6 space-y-6">
+            <h2 className="font-display text-3xl sm:text-5xl font-extrabold tracking-tight leading-[1.03]">
+              <SplitText text="Executive" mode="words" />{' '}
+              <span className="font-serif italic font-normal text-contrast-highlight">
+                Dossier
+              </span>
+            </h2>
 
-          <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12">
-            {/* Left - PDF Icon */}
-            <div className="flex-shrink-0">
-              <div
-                ref={pdfIconRef}
-                className="w-32 h-40 bg-gradient-to-b from-red-500 to-red-600 rounded-lg flex items-center justify-center shadow-lg mx-auto transition-all duration-700"
-                style={{
-                  opacity: isPdfIconInView ? 1 : 0,
-                  transform: isPdfIconInView ? 'scale(1)' : 'scale(0.8)'
-                }}
-              >
-                <FaFilePdf className="text-white text-5xl" />
-              </div>
-            </div>
+            <p className="text-contrast-muted text-base sm:text-lg leading-relaxed max-w-lg">
+              Download the complete PDF copy of my resume or inspect it directly inline in your browser.
+            </p>
 
-            {/* Right - Content & Actions */}
-            <div className="flex-1 text-center lg:text-left">
-              <h3 className="text-2xl md:text-3xl font-bold mb-4">
-                Professional <span className="text-gradient">CV</span>
-              </h3>
-              <p className="text-dark-200 mb-8 max-w-lg">
-                My resume includes detailed information about my education, experience, skills, and projects.
-                Feel free to download it or preview it online.
-              </p>
-
-              {/* Action Buttons */}
-              <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-8">
+            <div className="flex flex-wrap items-center gap-3.5 pt-2">
+              <Magnetic strength={0.24}>
                 <button
+                  type="button"
                   onClick={handleDownload}
-                  className="btn-primary flex items-center gap-2 hover-scale tap-scale"
+                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full font-display font-bold text-sm bg-volt-500 text-[#070709] border border-[#070709]/15 hover:shadow-volt-glow transition-all duration-300"
                 >
-                  <FaDownload />
-                  Download CV
+                  <Download className="w-4 h-4" />
+                  <span>Download CV</span>
                 </button>
+              </Magnetic>
 
+              <Magnetic strength={0.22}>
                 <button
-                  onClick={handleView}
-                  className="btn-secondary flex items-center gap-2 hover-scale tap-scale"
+                  type="button"
+                  onClick={() => setShowPreview((prev) => !prev)}
+                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-display font-bold text-sm border border-contrast-line text-contrast-ink hover:bg-contrast-ink hover:text-contrast-canvas transition-colors"
                 >
-                  <FaEye />
-                  {showPreview ? 'Close Preview' : 'View Online'}
+                  {showPreview ? (
+                    <>
+                      <EyeOff className="w-4 h-4" />
+                      <span>Close Preview</span>
+                    </>
+                  ) : (
+                    <>
+                      <Eye className="w-4 h-4" />
+                      <span>View Online</span>
+                    </>
+                  )}
                 </button>
+              </Magnetic>
 
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  className="flex items-center gap-2 px-6 py-3 rounded-lg border border-dark-600
-                         text-dark-200 hover:text-white hover:border-accent
-                         transition-all duration-300 hover-scale tap-scale"
-                >
-                  <FaUpload />
-                  Upload New
-                </button>
-
-                {resumeFile && (
-                  <button
-                    onClick={handleRemoveFile}
-                    className="flex items-center gap-2 px-6 py-3 rounded-lg border border-red-500/50
-                           text-red-400 hover:text-red-300 hover:border-red-500
-                           transition-all duration-300 hover-scale tap-scale"
-                  >
-                    <FaTrash />
-                    Remove
-                  </button>
-                )}
-
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept=".pdf"
-                  onChange={handleFileChange}
-                  className="hidden"
-                  aria-label="Upload resume"
-                />
-              </div>
-
-              {/* File info */}
-              {resumeFile && (
-                <div
-                  ref={fileInfoRef}
-                  className="inline-block glass px-4 py-2 rounded-lg text-sm transition-all duration-500"
-                  style={{
-                    opacity: isFileInfoInView ? 1 : 0,
-                    transform: isFileInfoInView ? 'translateY(0)' : 'translateY(10px)'
-                  }}
-                >
-                  <span className="text-accent font-medium">Current file:</span>{' '}
-                  {resumeFile.name} ({(resumeFile.size / 1024).toFixed(1)} KB)
-                </div>
-              )}
+              <a
+                href={personalInfo.resumePath}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-4 py-3 text-xs font-mono uppercase tracking-wider text-contrast-muted hover:text-contrast-ink underline underline-offset-4"
+              >
+                <span>Open PDF Tab</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
             </div>
           </div>
 
-          {/* PDF Preview */}
-          <div
-            className="overflow-hidden transition-all duration-300 ease-in-out"
-            style={{
-              maxHeight: showPreview ? '2000px' : '0px',
-              opacity: showPreview ? 1 : 0
-            }}
-          >
-            {showPreview && (
-              <div className="border-t border-dark-700 pt-8 mt-12">
-                <h4 className="text-xl font-bold mb-4 text-center">Resume Preview</h4>
-                <div className="w-full h-[600px] bg-dark-900 rounded-lg overflow-hidden border border-dark-700">
-                  <iframe
-                    src={resumeUrl}
-                    className="w-full h-full"
-                    title="Resume PDF Preview"
-                    frameBorder="0"
-                  >
-                    <p className="p-4 text-center text-dark-300">
-                      Your browser does not support PDF preview. Please download the resume to view it.
-                    </p>
-                  </iframe>
+          {/* Right Specification Ledger */}
+          <div className="lg:col-span-6 rounded-3xl border border-contrast-line bg-contrast-surface p-6 sm:p-8">
+            <div className="flex items-center justify-between pb-4 mb-2 border-b border-contrast-line">
+              <span className="font-mono text-xs uppercase tracking-[0.2em] text-contrast-muted">
+                CV Summary Sheet
+              </span>
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-volt-500 text-[#070709]">
+                VERIFIED PDF
+              </span>
+            </div>
+
+            <div className="divide-y divide-contrast-line">
+              {dossierStats.map((row) => (
+                <div
+                  key={row.k}
+                  className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1"
+                >
+                  <span className="font-mono text-[11px] uppercase tracking-wider text-contrast-muted">
+                    {row.k}
+                  </span>
+                  <span className="text-sm font-semibold text-contrast-ink sm:text-right">
+                    {row.v}
+                  </span>
                 </div>
-              </div>
-            )}
+              ))}
+            </div>
           </div>
         </div>
+
+        {/* Expandable Inline PDF Viewer */}
+        <AnimatePresence>
+          {showPreview && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="overflow-hidden"
+            >
+              <div className="mt-12 pt-10 border-t border-contrast-line">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-display font-bold text-lg text-contrast-ink">
+                    Online PDF Preview
+                  </h3>
+                  <a
+                    href={personalInfo.resumePath}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-xs uppercase tracking-wider text-contrast-highlight hover:underline inline-flex items-center gap-1"
+                  >
+                    <span>Open Fullscreen</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+                <div className="w-full h-[560px] sm:h-[680px] rounded-2xl overflow-hidden border border-contrast-line bg-white">
+                  <iframe
+                    src={`${personalInfo.resumePath}#view=FitH`}
+                    title="Kashif Saeed Resume PDF Preview"
+                    className="w-full h-full border-0"
+                  />
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
-};
-
-export default Resume;
+}

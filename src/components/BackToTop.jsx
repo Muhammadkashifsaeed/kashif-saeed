@@ -1,45 +1,81 @@
-﻿"use client";
-import { useState, useEffect } from 'react';
-import { FaArrowUp } from 'react-icons/fa';
+'use client';
+import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ArrowUp } from 'lucide-react';
+import Magnetic from './motion/Magnetic';
 
-const BackToTop = () => {
+export default function BackToTop() {
   const [isVisible, setIsVisible] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const toggleVisibility = () => {
-      setIsVisible(window.scrollY > 500);
+    const onScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setIsVisible(scrollTop > 420);
+      setProgress(docHeight > 0 ? Math.min(1, Math.max(0, scrollTop / docHeight)) : 0);
     };
 
-    window.addEventListener('scroll', toggleVisibility);
-    return () => window.removeEventListener('scroll', toggleVisibility);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (!isVisible) return null;
+  const radius = 21;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference * (1 - progress);
 
   return (
-    <button
-      onClick={scrollToTop}
-      className="fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full
-                 bg-gradient-to-r from-accent to-purple-600 text-white
-                 shadow-lg hover:shadow-accent/50 flex items-center justify-center
-                 transition-all duration-300 hover-scale tap-scale"
-      style={{
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'scale(1)' : 'scale(0.8)',
-        transition: 'opacity 0.3s ease-out, transform 0.3s ease-out'
-      }}
-      aria-label="Back to top"
-    >
-      <FaArrowUp size={20} />
-    </button>
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.7, y: 16 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.7, y: 16 }}
+          className="fixed bottom-6 right-6 z-50"
+        >
+          <Magnetic strength={0.35}>
+            <button
+              type="button"
+              onClick={scrollToTop}
+              aria-label="Back to top"
+              className="relative w-12 h-12 rounded-full editorial-panel shadow-editorial-light dark:shadow-editorial-dark flex items-center justify-center text-ink hover:bg-volt-500 hover:text-[#070709] transition-colors duration-300 group"
+            >
+              <svg
+                className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none"
+                viewBox="0 0 48 48"
+                aria-hidden="true"
+              >
+                <circle
+                  cx="24"
+                  cy="24"
+                  r={radius}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  className="text-line/60"
+                />
+                <circle
+                  cx="24"
+                  cy="24"
+                  r={radius}
+                  fill="none"
+                  stroke="#d2ff28"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeDasharray={circumference}
+                  strokeDashoffset={strokeDashoffset}
+                />
+              </svg>
+              <ArrowUp className="w-4 h-4 transition-transform duration-300 group-hover:-translate-y-0.5" />
+            </button>
+          </Magnetic>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
-};
-
-export default BackToTop;
+}
