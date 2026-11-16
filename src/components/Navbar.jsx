@@ -114,7 +114,7 @@ export default function Navbar() {
 
               {localTime && (
                 <span className="hidden xl:inline-flex items-center gap-1.5 pl-3 border-l border-line text-[11px] font-mono text-muted">
-                  <span className="w-1.5 h-1.5 rounded-full bg-volt-500 animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-highlight animate-pulse" />
                   LHE {localTime}
                 </span>
               )}
@@ -138,7 +138,7 @@ export default function Navbar() {
                         <motion.span
                           layoutId="activeEditorialNav"
                           transition={{ type: 'spring', stiffness: 380, damping: 32 }}
-                          className="absolute inset-0 rounded-full bg-volt-500 -z-10"
+                          className="absolute inset-0 rounded-full bg-volt-500 border border-[#070709]/15 -z-10 shadow-sm"
                         />
                       )}
                       {link.name}

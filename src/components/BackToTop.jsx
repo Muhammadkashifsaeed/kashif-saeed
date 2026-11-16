@@ -36,6 +36,7 @@ export default function BackToTop() {
           initial={{ opacity: 0, scale: 0.7, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.7, y: 16 }}
+          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
           className="fixed bottom-6 right-6 z-50"
         >
           <Magnetic strength={0.35}>
@@ -43,7 +44,7 @@ export default function BackToTop() {
               type="button"
               onClick={scrollToTop}
               aria-label="Back to top"
-              className="relative w-12 h-12 rounded-full editorial-panel shadow-editorial-light dark:shadow-editorial-dark flex items-center justify-center text-ink hover:bg-volt-500 hover:text-[#070709] transition-colors duration-300 group"
+              className="relative w-12 h-12 rounded-full editorial-panel shadow-editorial-light dark:shadow-editorial-dark flex items-center justify-center text-ink hover:bg-volt-500 hover:text-[#070709] hover:border-volt-500 transition-all duration-300 group"
             >
               <svg
                 className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none"
@@ -64,11 +65,12 @@ export default function BackToTop() {
                   cy="24"
                   r={radius}
                   fill="none"
-                  stroke="#d2ff28"
-                  strokeWidth="2"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeDasharray={circumference}
                   strokeDashoffset={strokeDashoffset}
+                  className="text-highlight group-hover:text-[#070709] transition-colors"
                 />
               </svg>
               <ArrowUp className="w-4 h-4 transition-transform duration-300 group-hover:-translate-y-0.5" />

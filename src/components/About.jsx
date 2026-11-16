@@ -147,7 +147,7 @@ export default function About() {
                 My development path began with core programming and data structures, then evolved into deep hands-on specialization in JavaScript (ES6+), React.js, Next.js, and Tailwind CSS.
               </p>
               <p>
-                Across 20+ deployed applications — including e-commerce stores, music &amp; rhythm platforms, content portals, AI brand ranking tools, corporate websites, and community applications — I focus on transforming ideas into responsive, crisp, and fast user experiences.
+                Across 20+ deployed applications — including e-commerce stores, music &amp; rhythm platforms, content publishing portals, smart agritech monitoring, and community platforms — I focus on transforming ideas into responsive, crisp, and fast user experiences.
               </p>
             </motion.div>
 
