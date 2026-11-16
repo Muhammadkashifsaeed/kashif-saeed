@@ -55,7 +55,7 @@ export const metadata = {
     template: '%s | Kashif Saeed',
   },
   description:
-    'Portfolio of Kashif Saeed — Next.js, React & TypeScript Frontend Developer from Lahore, Pakistan building e-commerce stores, AI/IoT interfaces, content platforms, and modern web applications.',
+    'Portfolio of Kashif Saeed — Next.js and React frontend developer from Lahore, Pakistan building modern web apps, e-commerce stores, and interactive UIs.',
   applicationName: 'Kashif Saeed Portfolio',
   keywords: [
     'Kashif Saeed',
