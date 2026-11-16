@@ -30,7 +30,7 @@ const principles = [
     num: '04',
     title: 'Continuous Engineering Growth',
     detail:
-      'From BS Computer Science at COMSATS to shipping production web apps at Digistartp UK, always sharpening modern frontend craft.',
+      'From BS Computer Science at COMSATS to shipping production web apps at Digistartup UK, always sharpening modern frontend craft.',
   },
 ];
 
@@ -46,10 +46,10 @@ export default function About() {
 
   const metaRows = [
     { label: 'Name', value: personalInfo.name },
-    { label: 'Current Role', value: 'Frontend Developer — Digistartp UK' },
+    { label: 'Current Role', value: 'Frontend Developer — Digistartup UK' },
     { label: 'Degree', value: 'BS Computer Science (COMSATS, 2026)' },
     { label: 'Based In', value: personalInfo.location },
-    { label: 'Languages', value: personalInfo.languages.join(' • ') },
+    { label: 'Availability', value: personalInfo.availability },
     { label: 'Direct Email', value: personalInfo.email },
   ];
 
@@ -141,7 +141,7 @@ export default function About() {
               className="space-y-5 text-base sm:text-lg leading-relaxed text-contrast-muted"
             >
               <p className="text-xl sm:text-2xl font-medium text-contrast-ink leading-snug">
-                I&apos;m a BS Computer Science graduate from COMSATS University Islamabad, Vehari Campus, currently crafting modern web applications as a Frontend Developer at Digistartp UK.
+                I&apos;m a BS Computer Science graduate from COMSATS University Islamabad, Vehari Campus, currently crafting modern web applications as a Frontend Developer at Digistartup UK.
               </p>
               <p>
                 My development path began with core programming and data structures, then evolved into deep hands-on specialization in JavaScript (ES6+), React.js, Next.js, and Tailwind CSS.

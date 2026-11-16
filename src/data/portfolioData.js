@@ -408,7 +408,7 @@ export const experience = [
   {
     id: 1,
     role: 'Frontend Developer',
-    company: 'Digistartp UK',
+    company: 'Digistartup UK',
     period: 'May 2026 - Present',
     description:
       'Developing and maintaining modern, responsive web applications using React.js and Next.js. Collaborating with the team to deliver high-quality digital products and seamless user experiences.',

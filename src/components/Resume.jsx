@@ -27,9 +27,9 @@ export default function Resume() {
   const dossierStats = [
     { k: 'Candidate', v: personalInfo.name },
     { k: 'Specialization', v: 'Next.js • React.js • Tailwind CSS' },
-    { k: 'Current Role', v: 'Frontend Developer @ Digistartp UK' },
+    { k: 'Current Role', v: 'Frontend Developer @ Digistartup UK' },
     { k: 'Education', v: 'BS Computer Science (COMSATS, 2026)' },
-    { k: 'Languages', v: personalInfo.languages.join(' / ') },
+    { k: 'Availability', v: 'Open for Frontend Roles & Contracts' },
     { k: 'Document Format', v: 'PDF — Ready for Download & Review' },
   ];
 

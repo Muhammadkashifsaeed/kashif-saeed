@@ -8,13 +8,13 @@ import {
   CheckCircle2,
   Clock,
   Copy,
-  Globe,
   Loader2,
   Mail,
   MapPin,
   MessageSquare,
   Phone,
   Send,
+  Sparkles,
 } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 import Magnetic from './motion/Magnetic';
@@ -24,12 +24,20 @@ const SERVICE_ID = 'service_oaf18e6';
 const TEMPLATE_ID = 'template_wkd794c';
 const PUBLIC_KEY = 'qFJSc5OzquI84lY6L';
 
+const topicSuggestions = [
+  'Frontend Role',
+  'Next.js / React Project',
+  'Full-Time Opportunity',
+  'General Inquiry',
+];
+
 export default function Contact() {
   const formRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState(null);
   const [errors, setErrors] = useState({});
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const [subject, setSubject] = useState('');
 
   const handleCopyEmail = async () => {
     try {
@@ -41,11 +49,18 @@ export default function Contact() {
     }
   };
 
+  const handleTopicClick = (topic) => {
+    setSubject(topic);
+    if (errors.subject) {
+      setErrors((prev) => ({ ...prev, subject: undefined }));
+    }
+  };
+
   const validate = (formData) => {
     const nextErrors = {};
     const name = String(formData.get('from_name') || '').trim();
     const email = String(formData.get('from_email') || '').trim();
-    const subject = String(formData.get('subject') || '').trim();
+    const subj = String(formData.get('subject') || '').trim();
     const message = String(formData.get('message') || '').trim();
 
     if (name.length < 2) nextErrors.from_name = 'Please enter your name.';
@@ -54,7 +69,7 @@ export default function Contact() {
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       nextErrors.from_email = 'Please enter a valid email address.';
     }
-    if (subject.length < 3) nextErrors.subject = 'Please enter a subject.';
+    if (subj.length < 3) nextErrors.subject = 'Please enter a subject.';
     if (message.length < 10) nextErrors.message = 'Please write at least 10 characters.';
 
     setErrors(nextErrors);
@@ -75,6 +90,7 @@ export default function Contact() {
         text: 'Message delivered. Thank you for reaching out — I will respond shortly.',
       });
       formRef.current.reset();
+      setSubject('');
       setErrors({});
     } catch (err) {
       console.error('EmailJS Error:', err);
@@ -112,7 +128,7 @@ export default function Contact() {
         </div>
 
         <div className="grid lg:grid-cols-12 gap-10 items-start">
-          {/* Left Column: Direct Channels (No Social Icons Here — Footer Only) */}
+          {/* Left Column: Direct Channels */}
           <div className="lg:col-span-5 space-y-5">
             <div className="editorial-panel rounded-[2rem] p-6 sm:p-8 space-y-5">
               <p className="font-mono text-xs uppercase tracking-[0.2em] text-subtle">
@@ -185,7 +201,7 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* Availability & Languages */}
+              {/* Response Time & Work Status */}
               <div className="grid grid-cols-2 gap-3 pt-1">
                 <div className="rounded-2xl bg-elevated/70 border border-line p-3.5">
                   <div className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-subtle">
@@ -196,41 +212,56 @@ export default function Contact() {
                 </div>
                 <div className="rounded-2xl bg-elevated/70 border border-line p-3.5">
                   <div className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-subtle">
-                    <Globe className="w-3.5 h-3.5 text-cyan-ink" />
-                    Languages
+                    <Sparkles className="w-3.5 h-3.5 text-cyan-ink" />
+                    Status
                   </div>
-                  <p className="text-sm font-semibold text-ink mt-1">
-                    {personalInfo.languages.join(', ')}
-                  </p>
+                  <p className="text-sm font-semibold text-ink mt-1">Open for Roles</p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Brief Form */}
+          {/* Right Column: Enhanced Brief Form */}
           <div className="lg:col-span-7">
-            <div className="editorial-panel rounded-[2rem] p-6 sm:p-10">
-              <form ref={formRef} onSubmit={handleSubmit} noValidate className="space-y-6">
-                <div className="grid sm:grid-cols-2 gap-6">
+            <div className="editorial-panel rounded-[2rem] p-6 sm:p-10 shadow-editorial-light dark:shadow-editorial-dark">
+              {/* Form Section Header */}
+              <div className="flex items-center justify-between pb-5 mb-6 border-b border-line">
+                <div>
+                  <h3 className="font-display font-bold text-xl sm:text-2xl text-ink">
+                    Send a Message
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted mt-0.5">
+                    Have a project inquiry, role opening, or collaboration idea?
+                  </p>
+                </div>
+                <span className="hidden sm:inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-highlight px-3 py-1 rounded-full bg-highlight/10 border border-highlight/30 font-semibold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-highlight animate-pulse" />
+                  Direct Inbox
+                </span>
+              </div>
+
+              <form ref={formRef} onSubmit={handleSubmit} noValidate className="space-y-5">
+                {/* Name & Email */}
+                <div className="grid sm:grid-cols-2 gap-5">
                   <div>
                     <label
                       htmlFor="from_name"
-                      className="block font-mono text-xs uppercase tracking-wider text-muted mb-2"
+                      className="block font-mono text-xs uppercase tracking-wider text-muted mb-2 font-medium"
                     >
-                      01 / Your Name
+                      Your Name <span className="text-highlight">*</span>
                     </label>
                     <input
                       id="from_name"
                       name="from_name"
                       type="text"
                       required
-                      placeholder="John Doe"
+                      placeholder="e.g. Alex Morgan"
                       onChange={() =>
                         errors.from_name &&
                         setErrors((prev) => ({ ...prev, from_name: undefined }))
                       }
-                      className={`w-full px-4 py-3.5 rounded-2xl bg-elevated/80 border text-ink placeholder:text-subtle focus:outline-none focus:border-highlight transition-colors ${
-                        errors.from_name ? 'border-signal-ink' : 'border-line'
+                      className={`w-full px-4 py-3.5 rounded-2xl bg-elevated/90 border text-ink placeholder:text-subtle text-sm focus:outline-none focus:ring-2 focus:ring-highlight/30 focus:border-highlight transition-all duration-200 ${
+                        errors.from_name ? 'border-signal-ink ring-2 ring-signal-ink/20' : 'border-line'
                       }`}
                     />
                     {errors.from_name && (
@@ -241,22 +272,22 @@ export default function Contact() {
                   <div>
                     <label
                       htmlFor="from_email"
-                      className="block font-mono text-xs uppercase tracking-wider text-muted mb-2"
+                      className="block font-mono text-xs uppercase tracking-wider text-muted mb-2 font-medium"
                     >
-                      02 / Email Address
+                      Email Address <span className="text-highlight">*</span>
                     </label>
                     <input
                       id="from_email"
                       name="from_email"
                       type="email"
                       required
-                      placeholder="john@example.com"
+                      placeholder="e.g. alex@example.com"
                       onChange={() =>
                         errors.from_email &&
                         setErrors((prev) => ({ ...prev, from_email: undefined }))
                       }
-                      className={`w-full px-4 py-3.5 rounded-2xl bg-elevated/80 border text-ink placeholder:text-subtle focus:outline-none focus:border-highlight transition-colors ${
-                        errors.from_email ? 'border-signal-ink' : 'border-line'
+                      className={`w-full px-4 py-3.5 rounded-2xl bg-elevated/90 border text-ink placeholder:text-subtle text-sm focus:outline-none focus:ring-2 focus:ring-highlight/30 focus:border-highlight transition-all duration-200 ${
+                        errors.from_email ? 'border-signal-ink ring-2 ring-signal-ink/20' : 'border-line'
                       }`}
                     />
                     {errors.from_email && (
@@ -265,25 +296,56 @@ export default function Contact() {
                   </div>
                 </div>
 
+                {/* Subject Field + Quick Topics */}
                 <div>
-                  <label
-                    htmlFor="subject"
-                    className="block font-mono text-xs uppercase tracking-wider text-muted mb-2"
-                  >
-                    03 / Subject
-                  </label>
+                  <div className="flex items-center justify-between mb-2">
+                    <label
+                      htmlFor="subject"
+                      className="block font-mono text-xs uppercase tracking-wider text-muted font-medium"
+                    >
+                      Subject <span className="text-highlight">*</span>
+                    </label>
+                    <span className="font-mono text-[10px] text-subtle uppercase">
+                      Quick select or type
+                    </span>
+                  </div>
+
+                  {/* Interactive Quick Subject Selector Chips */}
+                  <div className="flex flex-wrap gap-1.5 mb-2.5">
+                    {topicSuggestions.map((topic) => {
+                      const isSelected = subject === topic;
+                      return (
+                        <button
+                          key={topic}
+                          type="button"
+                          onClick={() => handleTopicClick(topic)}
+                          className={`px-3 py-1 rounded-full text-xs font-mono transition-all duration-200 ${
+                            isSelected
+                              ? 'bg-volt-500 text-[#070709] font-bold border border-[#070709]/15 shadow-sm'
+                              : 'bg-surface border border-line text-muted hover:text-ink hover:border-highlight/50'
+                          }`}
+                        >
+                          {topic}
+                        </button>
+                      );
+                    })}
+                  </div>
+
                   <input
                     id="subject"
                     name="subject"
                     type="text"
                     required
+                    value={subject}
                     placeholder="Frontend Role, Project Inquiry, or Collaboration"
-                    onChange={() =>
-                      errors.subject &&
-                      setErrors((prev) => ({ ...prev, subject: undefined }))
-                    }
-                    className={`w-full px-4 py-3.5 rounded-2xl bg-elevated/80 border text-ink placeholder:text-subtle focus:outline-none focus:border-highlight transition-colors ${
-                      errors.subject ? 'border-signal-ink' : 'border-line'
+                    onChange={(e) => {
+                      setSubject(e.target.value);
+                      if (errors.subject) {
+                        setErrors((prev) => ({ ...prev, subject: undefined }));
+                      }
+                    }}
+                    className={`w-full px-4 py-3.5 rounded-2xl bg-elevated/90 border text-ink placeholder:text-subtle text-sm focus:outline-none focus:ring-2 focus:ring-highlight/30 focus:border-highlight transition-all duration-200 ${
+                      errors.subject ? 'border-signal-ink ring-2 ring-signal-ink/20' : 'border-line'
                     }`}
                   />
                   {errors.subject && (
@@ -291,25 +353,26 @@ export default function Contact() {
                   )}
                 </div>
 
+                {/* Message Field */}
                 <div>
                   <label
                     htmlFor="message"
-                    className="block font-mono text-xs uppercase tracking-wider text-muted mb-2"
+                    className="block font-mono text-xs uppercase tracking-wider text-muted mb-2 font-medium"
                   >
-                    04 / Message
+                    Your Message <span className="text-highlight">*</span>
                   </label>
                   <textarea
                     id="message"
                     name="message"
                     rows={5}
                     required
-                    placeholder="Tell me about your project, goals, or timeline..."
+                    placeholder="Tell me about your project, goals, team, or timeline..."
                     onChange={() =>
                       errors.message &&
                       setErrors((prev) => ({ ...prev, message: undefined }))
                     }
-                    className={`w-full px-4 py-3.5 rounded-2xl bg-elevated/80 border text-ink placeholder:text-subtle resize-none focus:outline-none focus:border-highlight transition-colors ${
-                      errors.message ? 'border-signal-ink' : 'border-line'
+                    className={`w-full px-4 py-3.5 rounded-2xl bg-elevated/90 border text-ink placeholder:text-subtle text-sm resize-none focus:outline-none focus:ring-2 focus:ring-highlight/30 focus:border-highlight transition-all duration-200 ${
+                      errors.message ? 'border-signal-ink ring-2 ring-signal-ink/20' : 'border-line'
                     }`}
                   />
                   {errors.message && (
@@ -317,6 +380,7 @@ export default function Contact() {
                   )}
                 </div>
 
+                {/* Status Notice */}
                 <AnimatePresence>
                   {status && (
                     <motion.div
@@ -339,12 +403,13 @@ export default function Contact() {
                   )}
                 </AnimatePresence>
 
-                <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
+                {/* Submit Action + Subtitle */}
+                <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-line/60">
                   <Magnetic strength={0.22}>
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="btn-volt disabled:opacity-60 disabled:cursor-not-allowed"
+                      className="btn-volt disabled:opacity-60 disabled:cursor-not-allowed shadow-sm hover:shadow-volt-glow transition-all"
                     >
                       {isSubmitting ? (
                         <>
@@ -361,7 +426,7 @@ export default function Contact() {
                   </Magnetic>
 
                   <span className="font-mono text-xs text-muted">
-                    Social links available in footer ↓
+                    Typically replies within 24 hours
                   </span>
                 </div>
               </form>

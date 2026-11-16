@@ -63,7 +63,7 @@ export default function Experience() {
             </h2>
 
             <p className="text-muted text-base leading-relaxed max-w-md">
-              A progression from Computer Science fundamentals at COMSATS University to shipping modern React and Next.js interfaces at Digistartp UK.
+              A progression from Computer Science fundamentals at COMSATS University to shipping modern React and Next.js interfaces at Digistartup UK.
             </p>
 
             {/* Filter Pills */}
